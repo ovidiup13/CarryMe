@@ -20,7 +20,13 @@ angular.module('starter.controllers', [])
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
   $scope.chat = Chats.get($stateParams.chatId);
 })
+  .controller('FriendsCtrl', function($scope, Friends) {
+    $scope.friends = Friends.all();
+  })
 
+  .controller('FriendCtrl', function($scope, $stateParams, Friends) {
+    $scope.friend = Friends.get($stateParams.friendId);
+  })
 .controller('ActivityCtrl', function($scope, $filter, Activity) {
 
 
