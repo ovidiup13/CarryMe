@@ -21,8 +21,60 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('AccountCtrl', function($scope) {
+.controller('ActivityCtrl', function($scope,  $ionicActionSheet, Activity) {
   $scope.settings = {
-    enableFriends: true
+    showCompleted: true
   };
+
+    $scope.getToggleText = function(){
+      switch ($scope.settings.showCompleted){
+        case(true):
+          return  "Completed Journeys"
+          break;
+        case(false):
+          return "Journeys in progress"
+          break;
+      }
+    }
+
+
+    $scope.user = {
+      name: "Ben",
+      face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png',
+      completedJourneys: Activity.all(),
+      inProgress:  Activity.inProgress()
+    };
+
+    $scope.getJourneys = function(){
+      if($scope.settings.showCompleted === true){
+        return $scope.user.completedJourneys;
+      }else{
+        return $scope.user.inProgress;
+      }
+    }
+
+    $scope.getIcon = function(transport){
+      if(transport === "walking"){
+        return 'ion-android-walk';
+      };
+      if(transport === "cycling"){
+        return 'ion-android-bicycle';
+      };
+      if(transport === "public transport"){
+        return 'ion-android-bus';
+      };
+      if(transport === "car"){
+        return 'ion-android-car';
+      };
+    };
+
+
+    $scope.markComplete = function(journey) {
+      Activity.markComplete(journey);
+    };
+
+    $scope.markIncomplete = function(journey) {
+      Activity.markIncomplete(journey);
+    };
+
 });

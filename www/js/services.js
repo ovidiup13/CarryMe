@@ -1,5 +1,69 @@
 angular.module('starter.services', [])
+  .factory("Activity", function(){
+    var journeys = [{
+      id: 0,
+      mean: "walking",
+      date: "20.10.2015",
+      distance: "10 km",
+      calories: 200,
+      points: 40
+    },{
+      id: 1,
+      mean: "public transport",
+      date: "25.10.2015",
+      distance: "5 km",
+      calories: 100,
+      points: 30
+    },{
+      id: 2,
+      mean: "car",
+      date: "27.10.2015",
+      distance: "15 km",
+      calories: 50,
+      points: 20
+    },{
+      id: 3,
+      mean: "walking",
+      date: "30.10.2015",
+      distance: "10 km",
+      calories: 200,
+      points: 40
+    }];
 
+    var inProgressJourneys =[{
+      id: 0,
+      mean: "walking",
+      date: "30.10.2015",
+      distance: "10 km",
+      calories: 200,
+      points: 40
+    },{
+      id: 1,
+      mean: "public transport",
+      date: "31.10.2015",
+      distance: "5 km",
+      calories: 100,
+      points: 30
+    }]
+
+    return {
+      all: function(){
+        return journeys;
+      },
+      markComplete: function(journey) {
+        journeys.push(journey);
+        inProgressJourneys.splice(inProgressJourneys.indexOf(journey), 1);
+      },
+      markIncomplete: function(journey) {
+        inProgressJourneys.push(journey);
+        journeys.splice(journeys.indexOf(journey), 1);
+      },
+      inProgress: function(){
+        return inProgressJourneys;
+      }
+    }
+
+  })
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 

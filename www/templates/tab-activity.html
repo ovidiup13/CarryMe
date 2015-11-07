@@ -1,0 +1,35 @@
+<ion-view view-title="{{user.name}}">
+  <ion-content>
+    <!--<img ng-src="{{user.face}}">-->
+    <div style="margin: 0 auto; width:150px">
+    <div class="img-circular"></div>
+    </div>
+    <ion-list>
+    <ion-toggle  ng-model="settings.showCompleted">
+        {{getToggleText()}}
+    </ion-toggle>
+
+      <ion-item class="item-remove-animate item-icon-left item-icon-right" ng-repeat="journey in getJourneys()" type="item-text-wrap" >
+        <i class="icon {{getIcon(journey.mean)}}"></i>
+        <h2>{{journey.date}}</h2>
+        <div class="row">
+          <div class="col">
+            {{journey.calories}} cal
+          </div>
+          <div class="col">
+            {{journey.distance}}
+          </div>
+        </div>
+
+        <i class="icon ion-leaf ">
+          <p>{{journey.points}} pts</p>
+        </i>
+
+        <ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>
+        <ion-option-button class="button-positive" ng-click="markIncomplete(journey)" ng-show="settings.showCompleted">Mark as Incomplete</ion-option-button>
+
+
+      </ion-item>
+    </ion-list>
+  </ion-content>
+</ion-view>
