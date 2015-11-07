@@ -21,8 +21,10 @@ angular.module('starter.controllers', [])
   $scope.chat = Chats.get($stateParams.chatId);
 })
 
-.controller('ActivityCtrl', function($scope,  $ionicActionSheet, Activity) {
-  $scope.settings = {
+.controller('ActivityCtrl', function($scope, $filter, Activity) {
+
+
+    $scope.settings = {
     showCompleted: true
   };
 
@@ -45,7 +47,37 @@ angular.module('starter.controllers', [])
       inProgress:  Activity.inProgress()
     };
 
+    $scope.labels = [];
+    $scope.series = ['Points', 'Calories'];
+    $scope.data = [
+      [], []
+    ];
+
+    for(var i=0; i<$scope.user.completedJourneys.length; i++){
+      // for(var journey in $scope.user.completedJourneys){
+      //console.log($scope.user.completedJourneys[i]);
+      var journey = $scope.user.completedJourneys[i];
+
+      $scope.labels.push(journey.date);
+      $scope.data[0].push(journey.points);
+      $scope.data[1].push(journey.calories);
+    }
+
+
+
+    /*
+     $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
+     $scope.series = ['Points', 'Calories'];
+     $scope.data = [
+     [65, 59, 80, 81, 56, 55, 40], [28, 48, 40, 19, 86, 27, 90]
+     ];*/
+    $scope.onClick = function (points, evt) {
+      console.log(points, evt);
+    };
+
     $scope.getJourneys = function(){
+      //console.log($scope.user.completedJourneys[0]);
+
       if($scope.settings.showCompleted === true){
         return $scope.user.completedJourneys;
       }else{

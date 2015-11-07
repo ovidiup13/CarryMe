@@ -3,28 +3,28 @@ angular.module('starter.services', [])
     var journeys = [{
       id: 0,
       mean: "walking",
-      date: "20.10.2015",
+      date: '20-10-2015',
       distance: "10 km",
       calories: 200,
       points: 40
     },{
       id: 1,
       mean: "public transport",
-      date: "25.10.2015",
+      date: "25-10-2015",
       distance: "5 km",
       calories: 100,
       points: 30
     },{
       id: 2,
       mean: "car",
-      date: "27.10.2015",
+      date: "27-10-2015",
       distance: "15 km",
       calories: 50,
       points: 20
     },{
       id: 3,
       mean: "walking",
-      date: "30.10.2015",
+      date: "30-10-2015",
       distance: "10 km",
       calories: 200,
       points: 40
