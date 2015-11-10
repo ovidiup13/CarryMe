@@ -69,7 +69,32 @@ angular.module('starter.controllers', ['ksSwiper'])
 
   })
 
-  .controller('DashCtrl', function ($scope, Weather, WEATHER) {
+  .controller('DashCtrl', function ($scope, Weather, WEATHER) {  $scope.weatherIcons = ['wi-cloud', 'wi-day-sunny', 'wi-day-cloudy'];
+
+    Weather.sync().then(function () {
+      $scope.temperature = Math.round(Weather.data.main.temp);
+      $scope.weatherDescription = Weather.data.weather[0].description;
+      $scope.city = Weather.data.name;
+      $scope.icon_url = WEATHER.icon_url + Weather.data.weather[0].icon + ".png";
+
+      console.log($scope.icon_url);
+    });
+
+    //autocomplete controller
+    var options = {
+      componentRestrictions: {country: 'uk'}
+    };
+
+    //bind autocomplete to html input
+    var starting_point = new google.maps.places.Autocomplete(document.getElementById("starting-point"), options);
+    var destination_point = new google.maps.places.Autocomplete(document.getElementById("destination"), options);
+
+
+    $scope.updateWeather = function () {
+
+    };
+
+  })
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
