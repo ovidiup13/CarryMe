@@ -80,15 +80,14 @@ angular.module('starter.controllers', ['ksSwiper'])
       console.log($scope.icon_url);
     });
 
-    //autocomplete controller
+    /* //autocomplete controller
     var options = {
       componentRestrictions: {country: 'uk'}
-    };
+     };*/
 
     //bind autocomplete to html input
-    var starting_point = new google.maps.places.Autocomplete(document.getElementById("starting-point"), options);
-    var destination_point = new google.maps.places.Autocomplete(document.getElementById("destination"), options);
-
+    //var starting_point = new google.maps.places.Autocomplete(document.getElementById("starting-point"), options);
+    //var destination_point = new google.maps.places.Autocomplete(document.getElementById("destination"), options);
 
     $scope.updateWeather = function () {
 
@@ -132,13 +131,13 @@ angular.module('starter.controllers', ['ksSwiper'])
     $scope.getToggleText = function(){
       switch ($scope.settings.showCompleted){
         case(true):
-          return  "Completed Journeys"
+          return "Completed Journeys";
           break;
         case(false):
-          return "Journeys in progress"
+          return "Journeys in progress";
           break;
       }
-    }
+    };
 
 
     $scope.user = {
@@ -184,21 +183,21 @@ angular.module('starter.controllers', ['ksSwiper'])
       }else{
         return $scope.user.inProgress;
       }
-    }
+    };
 
     $scope.getIcon = function(transport){
       if(transport === "walking"){
         return 'ion-android-walk';
-      };
+      }
       if(transport === "cycling"){
         return 'ion-android-bicycle';
-      };
+      }
       if(transport === "public transport"){
         return 'ion-android-bus';
-      };
+      }
       if(transport === "car"){
         return 'ion-android-car';
-      };
+      }
     };
 
 

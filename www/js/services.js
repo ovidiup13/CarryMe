@@ -23,7 +23,7 @@ angular.module('starter.services', [])
         calories += metMap[arguments[i].transportMode]*weight*arguments[i].time;
       }
       return calories;
-    }
+    };
 
     var _getPoints = function(){
       var points = 0;
@@ -39,7 +39,7 @@ angular.module('starter.services', [])
       }
       return points;
 
-    }
+    };
 
     return {
       getPoints: _getPoints,
@@ -114,7 +114,7 @@ angular.module('starter.services', [])
   //just a constant, we can inject it as a dependency in any service
   .constant("WEATHER", {
     api_key: "92257cccf01d7cb89574a206d3d5d773",
-    url: "http://api.openweathermap.org/data/2.5/weather",
+    url: "http://api.openweathermap.org/data/2.5/",
     icon_url: "http://openweathermap.org/img/w/"
   })
 
@@ -126,15 +126,25 @@ angular.module('starter.services', [])
   //the weather service
   .factory('Weather', function ($q, WEATHER, $http) {
     var weather = {
-      data: null
+      data: null,
+      forecast: null
     };
 
     weather.getCurrentWeather = function () {
       return $http({
         method: 'GET',
-        url: WEATHER.url + "?q=Glasgow&units=metric&APPID=" + WEATHER.api_key
+        url: WEATHER.url + "weather?q=Glasgow&units=metric&APPID=" + WEATHER.api_key
       }).success(function (response) {
         weather.data = response;
+      });
+    };
+
+    weather.getForecast = function () {
+      return $http({
+        method: 'GET',
+        url: WEATHER.url + "forecast"
+      }).success(function (response) {
+
       });
     };
 
@@ -151,6 +161,10 @@ angular.module('starter.services', [])
    *
    * transportMode = { walking, public transport, cycling, car }
    * * */
+
+  .factory("Routes", function (GOOGLE) {
+
+  })
 
   .factory('Chats', function () {
     // Might use a resource here that returns a JSON array

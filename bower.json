@@ -7,6 +7,10 @@
   "dependencies": {
     "Chart.js": "~1.0.2",
     "angular-chart.js": "~0.8.5",
-    "angular-swiper": "~0.3.0"
+    "angular-swiper": "~0.3.0",
+    "Swiper": "swiper#~3.2.0",
+    "weather-icons": "~2.0.10",
+    "angular-google-maps": "~2.2.1",
+    "angular-google-places-autocomplete": "~0.2.7"
   }
 }
