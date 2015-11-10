@@ -1,5 +1,72 @@
 angular.module('starter.controllers', [])
+  .controller('LoginCtrl', function($scope, $state, $ionicPopup) {
 
+    $scope.data = {};
+
+    $scope.signupEmail = function(){
+      var currentUser = Parse.User.current();
+      if (currentUser) {
+        // do stuff with the user
+        Parse.User.logOut();
+      }
+      //Create a new user on Parse
+      var user = new Parse.User();
+      user.set("username", $scope.data.username);
+      user.set("password", $scope.data.password);
+      user.set("email", $scope.data.email);
+
+      // other fields can be set just like with Parse.Object
+      //user.set("weight", $scope.data.weight);
+      console.log($scope.data.weight);
+      user.set("weight" , $scope.data.weight);
+      user.signUp(null, {
+        success: function(user) {
+          // Hooray! Let them use the app now.
+          var alertPopup = $ionicPopup.alert({
+            title: 'Success!',
+            template: 'You are signed up.'
+          });
+          $state.go('login');
+        },
+        error: function(user, error) {
+          // Show the error message somewhere and let the user try again.
+          var alertPopup = $ionicPopup.alert({
+            title: 'Error!',
+            template: "Error: " + error.code + " " + error.message
+          });
+
+          //alert("Error: " + error.code + " " + error.message);
+        }
+      });
+
+    };
+
+    $scope.loginEmail = function(){
+      Parse.User.logIn($scope.data.username, $scope.data.password, {
+        success: function(user) {
+          // Do stuff after successful login.
+          console.log(user);
+
+          var alertPopup = $ionicPopup.alert({
+            title: 'Success!',
+            template: 'You are logged in.'
+          });
+
+          $state.go('tab.dash');
+
+        },
+        error: function(user, error) {
+          // The login failed. Check error to see why.
+          var alertPopup = $ionicPopup.alert({
+            title: 'Error!',
+            template: "Invalid username or password!"
+          });
+
+        }
+      });
+    };
+
+  })
 .controller('DashCtrl', function($scope) {})
 
 .controller('ChatsCtrl', function($scope, Chats) {
@@ -27,8 +94,9 @@ angular.module('starter.controllers', [])
   .controller('FriendCtrl', function($scope, $stateParams, Friends) {
     $scope.friend = Friends.get($stateParams.friendId);
   })
-.controller('ActivityCtrl', function($scope, $filter, Activity) {
 
+.controller('ActivityCtrl', function($scope, $filter, Activity,PointsCaloriesCalculator) {
+    var currentUser = Parse.User.current();
 
     $scope.settings = {
     showCompleted: true
@@ -47,7 +115,7 @@ angular.module('starter.controllers', [])
 
 
     $scope.user = {
-      name: "Ben",
+      name: currentUser.attributes.username,
       face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png',
       completedJourneys: Activity.all(),
       inProgress:  Activity.inProgress()

@@ -20,6 +20,8 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' , 
       // org.apache.cordova.statusbar required
       StatusBar.styleLightContent();
     }
+
+    Parse.initialize("8Ij63yFKOUd8S2LNUrKIfs45mxt1yXShybJuNL2n", "L1qfxLHZhIKhENiClwbbPokD6cSd4KrFPTRF3PEp");
   });
 })
 
@@ -30,6 +32,21 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' , 
   // Set up the various states which the app can be in.
   // Each state's controller can be found in controllers.js
   $stateProvider
+    .state('login', {
+      url: '/',
+      templateUrl: 'templates/login.html',
+      controller: 'LoginCtrl'
+    })
+    .state('signup', {
+      url: '/signup',
+      templateUrl: 'templates/signup.html',
+      controller: 'LoginCtrl'
+    })
+    .state('signin', {
+      url: '/signin',
+      templateUrl: 'templates/signin.html',
+      controller: 'LoginCtrl'
+    })
 
   // setup an abstract state for the tabs directive
     .state('tab', {
@@ -100,6 +117,6 @@ angular.module('starter', ['ionic', 'starter.controllers', 'starter.services' , 
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/');
 
 });

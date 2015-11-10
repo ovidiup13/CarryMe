@@ -1,4 +1,51 @@
 angular.module('starter.services', [])
+
+  .factory("PointsCaloriesCalculator", function(){
+    /*
+    EXAMPLE USE
+     var route = [];
+     route[0]= {transportMode : "walking", time : 1};
+     route[1]= {transportMode : "cycling", time : 1};
+     console.log(PointsCaloriesCalculator.getCalories.apply(null, route));
+     */
+    var _getCalories = function (){
+      var calories = 0;
+      var currentUser = Parse.User.current();
+      var weight =  currentUser.attributes.weight;
+      var metMap = {
+        "walking" : 3.8,
+        "public transport" : 1.0,
+        "cycling" : 8.0,
+        "car" : 2.0
+      };
+
+      for(var i =0; i<arguments.length; i++){
+        calories += metMap[arguments[i].transportMode]*weight*arguments[i].time;
+      }
+      return calories;
+    }
+
+    var _getPoints = function(){
+      var points = 0;
+      var pointsMap = {
+        "walking" : 50,
+        "public transport" : 25,
+        "cycling" : 50,
+        "car" : 20
+      };
+
+      for(var i =0; i<arguments.length; i++){
+        points += pointsMap[arguments[i].transportMode]*arguments[i].time;
+      }
+      return points;
+
+    }
+
+    return {
+      getPoints: _getPoints,
+      getCalories: _getCalories
+    }
+  })
   .factory("Activity", function(){
     var journeys = [{
       id: 0,
