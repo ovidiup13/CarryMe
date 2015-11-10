@@ -1,4 +1,33 @@
-/* Empty. Add your own CSS if you like */
+#weather {
+  margin: 0px auto;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+#weather h2 {
+  margin: 0;
+  color: #fff;
+  font-size: 80px;
+  font-weight: 500;
+  text-align: center;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+#weather ul {
+  margin: 0;
+  padding: 0;
+}
+
+#weather li {
+  color: #fff;
+  /*background: #fff;*/
+  /*background: rgba(255,255,255,0.90);*/
+  padding: 10px;
+  display: inline-block;
+  border-radius: 5px;
+}
+
+
 .img-circular{
   width: 150px;
   height: 150px;
@@ -45,4 +74,17 @@
 }
 .swiper-slide:nth-child(3n) {
   width: 20%;
+}
+
+.pane {
+  background-image: url("https://s3-eu-west-1.amazonaws.com/media.unbound.co/p/images/553/original/clouds.jpg?1393527084")
+}
+
+#search-form {
+  margin: 0 auto;
+  text-align: center;
+}
+
+#search-form button {
+  margin: 8px;
 }

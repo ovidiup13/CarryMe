@@ -1,8 +1,17 @@
 angular.module('starter.controllers', ['ksSwiper'])
 
-  .controller('DashCtrl', function ($scope) {
+  .controller('DashCtrl', function ($scope, Weather, WEATHER) {
 
-    $scope.weather = ['wi-cloud', 'wi-day-sunny', 'wi-day-cloudy'];
+    $scope.weatherIcons = ['wi-cloud', 'wi-day-sunny', 'wi-day-cloudy'];
+
+    Weather.sync().then(function () {
+      $scope.temperature = Math.round(Weather.data.main.temp);
+      $scope.weatherDescription = Weather.data.weather[0].description;
+      $scope.city = Weather.data.name;
+      $scope.icon_url = WEATHER.icon_url + Weather.data.weather[0].icon + ".png";
+
+      console.log($scope.icon_url);
+    });
 
     //autocomplete controller
     var options = {
@@ -12,6 +21,11 @@ angular.module('starter.controllers', ['ksSwiper'])
     //bind autocomplete to html input
     var starting_point = new google.maps.places.Autocomplete(document.getElementById("starting-point"), options);
     var destination_point = new google.maps.places.Autocomplete(document.getElementById("destination"), options);
+
+
+    $scope.updateWeather = function () {
+
+    };
 
   })
 
@@ -49,10 +63,10 @@ angular.module('starter.controllers', ['ksSwiper'])
     $scope.getToggleText = function () {
       switch ($scope.settings.showCompleted) {
         case(true):
-          return "Completed Journeys"
+          return "Completed Journeys";
           break;
         case(false):
-          return "Journeys in progress"
+          return "Journeys in progress";
           break;
       }
     };
@@ -80,7 +94,6 @@ angular.module('starter.controllers', ['ksSwiper'])
       $scope.data[1].push(journey.calories);
     }
 
-
     /*
      $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
      $scope.series = ['Points', 'Calories'];
@@ -99,25 +112,21 @@ angular.module('starter.controllers', ['ksSwiper'])
       } else {
         return $scope.user.inProgress;
       }
-    }
+    };
 
     $scope.getIcon = function (transport) {
       if (transport === "walking") {
         return 'ion-android-walk';
       }
-      ;
       if (transport === "cycling") {
         return 'ion-android-bicycle';
       }
-      ;
       if (transport === "public transport") {
         return 'ion-android-bus';
       }
-      ;
       if (transport === "car") {
         return 'ion-android-car';
       }
-      ;
     };
 
 

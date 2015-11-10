@@ -2,37 +2,34 @@
   <ion-content class="padding">
 
     <div id="weather">
-        <h1> Now there are: 12 degrees Glasgow</h1>
+      <!--<img src="{{icon_url}}"/>-->
+      <h2 id="temperature"> {{temperature}}&deg;C</h2>
+      <ul>
+        <li>{{weatherDescription}}</li>
+        <li>{{city}}</li>
+      </ul>
     </div>
 
     <!-- Swiper -->
-    <ks-swiper-container initial-slide="3" loop="false" show-nav-buttons="false" slides-per-view="4" space-between="5" pagination-clickable="false">
-      <ks-swiper-slide class="swiper-slide" ng-repeat="s in weather">
-          <i class="wi {{s}}"></i>
+    <ks-swiper-container initial-slide="3" loop="false" show-nav-buttons="false" slides-per-view="4" space-between="5"
+                         pagination-clickable="false">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="s in weatherIcons">
+        <i class="wi {{s}}"></i>
       </ks-swiper-slide>
     </ks-swiper-container>
 
-    </div>
+    <form id="search-form" ng-submit="getWeather()">
+      <label class="item item-input">
+        <input id="starting-point" type="text" placeholder="Starting Point">
+      </label>
 
-    <div class="list card">
-      <div class="item item-divider">Where are we going today?</div>
-      <div class="item item-body">
+      <label class="item item-input">
+        <input id="destination" type="text" placeholder="Destination">
+      </label>
 
-        <form>
-          <label class="item item-input">
-            <input id="starting-point" type="text" placeholder="Starting Point" >
-          </label>
-
-          <label class="item item-input">
-            <input id="destination" type="text" placeholder="Destination">
-          </label> <br>
-
-          <button type="submit" class="button button-light centralize">
-            Let's go!
-          </button>
-        </form>
-
-      </div>
-    </div>
+      <button type="submit" class="button button-light centralize">
+        Let's go!
+      </button>
+    </form>
   </ion-content>
 </ion-view>
