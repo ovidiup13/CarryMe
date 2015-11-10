@@ -1,6 +1,7 @@
-angular.module('starter.controllers', [])
-  .controller('LoginCtrl', function($scope, $state, $ionicPopup) {
 
+
+angular.module('starter.controllers', ['ksSwiper'])
+  .controller('LoginCtrl', function($scope, $state, $ionicPopup) {
     $scope.data = {};
 
     $scope.signupEmail = function(){
@@ -67,7 +68,8 @@ angular.module('starter.controllers', [])
     };
 
   })
-.controller('DashCtrl', function($scope) {})
+
+  .controller('DashCtrl', function ($scope, Weather, WEATHER) {
 
 .controller('ChatsCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called

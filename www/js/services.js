@@ -91,7 +91,7 @@ angular.module('starter.services', [])
       distance: "5 km",
       calories: 100,
       points: 30
-    }]
+    }];
 
     return {
       all: function(){
@@ -109,10 +109,55 @@ angular.module('starter.services', [])
         return inProgressJourneys;
       }
     }
+  })
+
+  //just a constant, we can inject it as a dependency in any service
+  .constant("WEATHER", {
+    api_key: "92257cccf01d7cb89574a206d3d5d773",
+    url: "http://api.openweathermap.org/data/2.5/weather",
+    icon_url: "http://openweathermap.org/img/w/"
+  })
+
+  //constant holding api key for google
+  .constant("GOOGLE", {
+    api_key: "api key here" //"AIzaSyCZPUj37TM6ZJGsphAOLWu2MzGBtTrZsCM"
+  })
+
+  //the weather service
+  .factory('Weather', function ($q, WEATHER, $http) {
+    var weather = {
+      data: null
+    };
+
+    weather.getCurrentWeather = function () {
+      return $http({
+        method: 'GET',
+        url: WEATHER.url + "?q=Glasgow&units=metric&APPID=" + WEATHER.api_key
+      }).success(function (response) {
+        weather.data = response;
+      });
+    };
+
+    weather.sync = function () {
+      return weather.getCurrentWeather();
+    };
+
+    return weather;
+  })
+
+  //get routes service
+  /*
+   * route = [ {transportMode: ..., time: 0.5 //half an hour
+   *
+   * transportMode = { walking, public transport, cycling, car }
+   * * */
+
+  .factory('Chats', function () {
+    // Might use a resource here that returns a JSON array
 
   })
 
-  .factory('Friends', function(){
+  .factory('Friends', function () {
     // Some fake testing data
     var friends = [{
       id: 0,

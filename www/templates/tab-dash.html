@@ -1,28 +1,35 @@
-<ion-view view-title="Dashboard">
+<ion-view view-title="Dashboard" ng-controller="DashCtrl">
   <ion-content class="padding">
-    <div class="list card">
-      <div class="item item-divider">Recent Updates</div>
-      <div class="item item-body">
-        <div>
-          There is a fire in <b>sector 3</b>
-        </div>
-      </div>
+
+    <div id="weather">
+      <!--<img src="{{icon_url}}"/>-->
+      <h2 id="temperature"> {{temperature}}&deg;C</h2>
+      <ul>
+        <li>{{weatherDescription}}</li>
+        <li>{{city}}</li>
+      </ul>
     </div>
-    <div class="list card">
-      <div class="item item-divider">Health</div>
-      <div class="item item-body">
-        <div>
-          You ate an apple today!
-        </div>
-      </div>
-    </div>
-    <div class="list card">
-      <div class="item item-divider">Upcoming</div>
-      <div class="item item-body">
-        <div>
-          You have <b>29</b> meetings on your calendar tomorrow.
-        </div>
-      </div>
-    </div>
+
+    <!-- Swiper -->
+    <ks-swiper-container initial-slide="3" loop="false" show-nav-buttons="false" slides-per-view="4" space-between="5"
+                         pagination-clickable="false">
+      <ks-swiper-slide class="swiper-slide" ng-repeat="s in weatherIcons">
+        <i class="wi {{s}}"></i>
+      </ks-swiper-slide>
+    </ks-swiper-container>
+
+    <form id="search-form" ng-submit="getWeather()">
+      <label class="item item-input">
+        <input id="starting-point" type="text" placeholder="Starting Point">
+      </label>
+
+      <label class="item item-input">
+        <input id="destination" type="text" placeholder="Destination">
+      </label>
+
+      <button type="submit" class="button button-light centralize">
+        Let's go!
+      </button>
+    </form>
   </ion-content>
 </ion-view>
