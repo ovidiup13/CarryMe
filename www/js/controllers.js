@@ -1,10 +1,8 @@
-
-
 angular.module('starter.controllers', ['ksSwiper'])
-  .controller('LoginCtrl', function($scope, $state, $ionicPopup) {
+  .controller('LoginCtrl', function ($scope, $state, $ionicPopup) {
     $scope.data = {};
 
-    $scope.signupEmail = function(){
+    $scope.signupEmail = function () {
       var currentUser = Parse.User.current();
       if (currentUser) {
         // do stuff with the user
@@ -19,9 +17,9 @@ angular.module('starter.controllers', ['ksSwiper'])
       // other fields can be set just like with Parse.Object
       //user.set("weight", $scope.data.weight);
       console.log($scope.data.weight);
-      user.set("weight" , $scope.data.weight);
+      user.set("weight", $scope.data.weight);
       user.signUp(null, {
-        success: function(user) {
+        success: function (user) {
           // Hooray! Let them use the app now.
           var alertPopup = $ionicPopup.alert({
             title: 'Success!',
@@ -29,7 +27,7 @@ angular.module('starter.controllers', ['ksSwiper'])
           });
           $state.go('login');
         },
-        error: function(user, error) {
+        error: function (user, error) {
           // Show the error message somewhere and let the user try again.
           var alertPopup = $ionicPopup.alert({
             title: 'Error!',
@@ -42,9 +40,9 @@ angular.module('starter.controllers', ['ksSwiper'])
 
     };
 
-    $scope.loginEmail = function(){
+    $scope.loginEmail = function () {
       Parse.User.logIn($scope.data.username, $scope.data.password, {
-        success: function(user) {
+        success: function (user) {
           // Do stuff after successful login.
           console.log(user);
 
@@ -56,80 +54,199 @@ angular.module('starter.controllers', ['ksSwiper'])
           $state.go('tab.dash');
 
         },
-        error: function(user, error) {
+        error: function (user, error) {
           // The login failed. Check error to see why.
           var alertPopup = $ionicPopup.alert({
             title: 'Error!',
             template: "Invalid username or password!"
           });
-
         }
       });
     };
 
   })
 
-  .controller('DashCtrl', function ($scope, Weather, WEATHER) {  $scope.weatherIcons = ['wi-cloud', 'wi-day-sunny', 'wi-day-cloudy'];
+  /**
+   * Swiper directive for loading data.
+   */
+  .directive('isLoaded', function () {
+    return {
+      scope: false, //don't need a new scope
+      restrict: 'A', //Attribute type
+      link: function (scope, elements, arguments) {
 
+        if (scope.$last) {
+          scope.$emit('content-changed');
+          console.log('page Is Ready!');
+        }
+      }
+    }
+  })
+
+  /**
+   * Swiper directive in case data changes.
+   */
+  .directive('swiper', function () {
+    return {
+      link: function (scope, element, attr) {
+        //Option 1 - on ng-repeat change notification
+        scope.$on('content-changed', function () {
+          console.log("changed");
+          new Swiper(element, {
+            direction: 'horizontal',
+            slidesPerView: 3,
+            spaceBetween: 5
+          });
+        })
+      }
+    }
+  })
+
+  /**
+   * Dashboard WEATHER Controller
+   */
+  .controller('DashCtrl', function ($scope, Weather, WEATHER, $interval) {
+
+    //swiper
+    var swiper = new Swiper('.swiper-container', {
+      direction: 'horizontal',
+      slidesPerView: 3,
+      spaceBetween: 10
+    });
+
+    $scope.forecast = [];
+
+    $scope.syncWeather = function () {
+      Weather.sync().then(function () {
+        $scope.temperature = Math.round(Weather.data.main.temp);
+        $scope.weatherDescription = Weather.data.weather[0].description;
+        $scope.city = Weather.data.name;
+        $scope.icon_url = WEATHER.icon_url + Weather.data.weather[0].icon + ".png";
+
+        //refresh complete
+        $scope.$broadcast('scroll.refreshComplete');
+      });
+    };
+
+    //sync current weather
     Weather.sync().then(function () {
       $scope.temperature = Math.round(Weather.data.main.temp);
       $scope.weatherDescription = Weather.data.weather[0].description;
       $scope.city = Weather.data.name;
       $scope.icon_url = WEATHER.icon_url + Weather.data.weather[0].icon + ".png";
 
-      console.log($scope.icon_url);
+      //sync if forecast is null
+      if (Weather.forecast === null) {
+        syncForecast();
+        //then sync forecast every 1.5 hours
+        $interval(function () {
+          syncForecast();
+        }, 5.4e+6);
+      }
     });
 
-    /* //autocomplete controller
-    var options = {
-      componentRestrictions: {country: 'uk'}
-     };*/
-
-    //bind autocomplete to html input
-    //var starting_point = new google.maps.places.Autocomplete(document.getElementById("starting-point"), options);
-    //var destination_point = new google.maps.places.Autocomplete(document.getElementById("destination"), options);
-
-    $scope.updateWeather = function () {
-
+    //function to get forecast data from service
+    var syncForecast = function () {
+      Weather.syncForecast().then(function () {
+        $scope.forecast = Weather.forecast.slice();
+      });
     };
+  })
+
+  /**
+   * Dashboard ROUTES Controller
+   */
+
+  .controller("RoutesCtrl", function ($scope, Directions) {
+    $scope.routesOn = false;
+
+    $scope.starting_point = null;
+    $scope.destination = null;
+    $scope.routes = [];
+
+    //query routes from service
+    $scope.getRoutes = function () {
+      Directions.getDirections($scope.starting_point, $scope.destination)
+        //if routes are successful
+        .then(function (result) {
+          //display routes
+          $scope.displayRoutes(result);
+          console.log(result);
+
+          //if an error occurred
+        }, function (err) {
+
+          //display an alert
+          var alertPopup = $ionicPopup.alert({
+            title: "Error",
+            template: err
+          });
+          alertPopup.then(function (res) {
+            console.log(err);
+          });
+        });
+
+      //TODO: swap it with a service
+      $scope.getIcon = function (transport) {
+        if (transport === "walking") {
+          return 'ion-android-walk';
+        }
+        if (transport === "bicycling") {
+          return 'ion-android-bicycle';
+        }
+        if (transport === "transit") {
+          return 'ion-android-bus';
+        }
+        if (transport === "driving") {
+          return 'ion-android-car';
+        }
+      };
+    };
+
+    //display routes
+    $scope.displayRoutes = function (routes) {
+      $scope.routes = routes;
+      //console.log($scope.routes);
+      $scope.routesOn = true;
+    }
 
   })
 
-.controller('ChatsCtrl', function($scope, Chats) {
-  // With the new view caching in Ionic, Controllers are only called
-  // when they are recreated or on app start, instead of every page change.
-  // To listen for when this page is active (for example, to refresh data),
-  // listen for the $ionicView.enter event:
-  //
-  //$scope.$on('$ionicView.enter', function(e) {
-  //});
+  .controller('ChatsCtrl', function ($scope, Chats) {
+    // With the new view caching in Ionic, Controllers are only called
+    // when they are recreated or on app start, instead of every page change.
+    // To listen for when this page is active (for example, to refresh data),
+    // listen for the $ionicView.enter event:
+    //
+    //$scope.$on('$ionicView.enter', function(e) {
+    //});
 
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
-})
+    $scope.chats = Chats.all();
+    $scope.remove = function (chat) {
+      Chats.remove(chat);
+    };
+  })
 
-.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
-  $scope.chat = Chats.get($stateParams.chatId);
-})
-  .controller('FriendsCtrl', function($scope, Friends) {
+  .controller('ChatDetailCtrl', function ($scope, $stateParams, Chats) {
+    $scope.chat = Chats.get($stateParams.chatId);
+  })
+  .controller('FriendsCtrl', function ($scope, Friends) {
     $scope.friends = Friends.all();
   })
 
-  .controller('FriendCtrl', function($scope, $stateParams, Friends) {
+  .controller('FriendCtrl', function ($scope, $stateParams, Friends) {
     $scope.friend = Friends.get($stateParams.friendId);
   })
 
-.controller('ActivityCtrl', function($scope, $filter, Activity,PointsCaloriesCalculator) {
+  .controller('ActivityCtrl', function ($scope, $filter, Activity, PointsCaloriesCalculator) {
     var currentUser = Parse.User.current();
 
     $scope.settings = {
-    showCompleted: true
-  };
+      showCompleted: true
+    };
 
-    $scope.getToggleText = function(){
-      switch ($scope.settings.showCompleted){
+    $scope.getToggleText = function () {
+      switch ($scope.settings.showCompleted) {
         case(true):
           return "Completed Journeys";
           break;
@@ -139,12 +256,11 @@ angular.module('starter.controllers', ['ksSwiper'])
       }
     };
 
-
     $scope.user = {
       name: currentUser.attributes.username,
       face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png',
       completedJourneys: Activity.all(),
-      inProgress:  Activity.inProgress()
+      inProgress: Activity.inProgress()
     };
 
     $scope.labels = [];
@@ -153,7 +269,7 @@ angular.module('starter.controllers', ['ksSwiper'])
       [], []
     ];
 
-    for(var i=0; i<$scope.user.completedJourneys.length; i++){
+    for (var i = 0; i < $scope.user.completedJourneys.length; i++) {
       // for(var journey in $scope.user.completedJourneys){
       //console.log($scope.user.completedJourneys[i]);
       var journey = $scope.user.completedJourneys[i];
@@ -162,8 +278,6 @@ angular.module('starter.controllers', ['ksSwiper'])
       $scope.data[0].push(journey.points);
       $scope.data[1].push(journey.calories);
     }
-
-
 
     /*
      $scope.labels = ["January", "February", "March", "April", "May", "June", "July"];
@@ -175,38 +289,38 @@ angular.module('starter.controllers', ['ksSwiper'])
       console.log(points, evt);
     };
 
-    $scope.getJourneys = function(){
+    $scope.getJourneys = function () {
       //console.log($scope.user.completedJourneys[0]);
 
-      if($scope.settings.showCompleted === true){
+      if ($scope.settings.showCompleted === true) {
         return $scope.user.completedJourneys;
-      }else{
+      } else {
         return $scope.user.inProgress;
       }
     };
 
-    $scope.getIcon = function(transport){
-      if(transport === "walking"){
+    //TODO: add it in a service, need it for dashboard as well
+    $scope.getIcon = function (transport) {
+      if (transport === "walking") {
         return 'ion-android-walk';
       }
-      if(transport === "cycling"){
+      if (transport === "cycling") {
         return 'ion-android-bicycle';
       }
-      if(transport === "public transport"){
+      if (transport === "public transport") {
         return 'ion-android-bus';
       }
-      if(transport === "car"){
+      if (transport === "car") {
         return 'ion-android-car';
       }
     };
 
-
-    $scope.markComplete = function(journey) {
+    $scope.markComplete = function (journey) {
       Activity.markComplete(journey);
     };
 
-    $scope.markIncomplete = function(journey) {
+    $scope.markIncomplete = function (journey) {
       Activity.markIncomplete(journey);
     };
 
-});
+  });

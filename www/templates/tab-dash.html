@@ -1,36 +1,82 @@
 <ion-view view-title="Dashboard" ng-controller="DashCtrl">
+
   <ion-content class="padding">
 
-    <div id="weather">
-      <!--<img src="{{icon_url}}"/>-->
-      <h2 id="temperature"> {{temperature}}&deg;C</h2>
-      <ul>
-        <li>{{weatherDescription}}</li>
-        <li>{{city}}</li>
-      </ul>
+    <ion-refresher refreshing-text="Syncing weather..." on-refresh="syncWeather()"></ion-refresher>
+
+    <!-- Weather object -->
+    <div>
+      <div id="weather">
+        <!--<img src="{{icon_url}}"/>-->
+        <h2 id="temperature"> {{temperature}}&deg;C</h2>
+        <ul>
+          <li>{{weatherDescription}}</li>
+          <li>{{city}}</li>
+        </ul>
+      </div>
+
+      <!-- Swiper -->
+      <div class="swiper-container" ng-init="syncForecast()" swiper>
+        <div class="swiper-wrapper">
+          <div class="swiper-slide" ng-repeat="weather in forecast" is-loaded>
+
+            {{weather.temperature}}&deg;C
+            <h5>{{weather.time}}</h5>
+          </div>
+        </div>
+        <!-- If we need scrollbar -->
+        <!--<div class="swiper-scrollbar"></div>-->
+      </div>
+
     </div>
 
-    <!-- Swiper -->
-    <ks-swiper-container initial-slide="3" loop="false" show-nav-buttons="false" slides-per-view="4" space-between="5"
-                         pagination-clickable="false">
-      <ks-swiper-slide class="swiper-slide" ng-repeat="s in weatherIcons">
-        <i class="wi {{s}}"></i>
-      </ks-swiper-slide>
-    </ks-swiper-container>
+    <!-- Routes object -->
 
-    <form id="search-form" ng-submit="getWeather()">
-      <label class="item item-input">
-        <input id="starting-point" g-places-autocomplete ng-model="starting_point" type="text"
-               placeholder="Starting Point">
-      </label>
+    <div ng-controller="RoutesCtrl">
 
-      <label class="item item-input">
-        <input id="destination" type="text" g-places-autocomplete ng-model="destination" placeholder="Destination">
-      </label>
+      <!-- Routes form -->
+      <form id="search-form" ng-submit="getRoutes()">
+        <label class="item item-input">
+          <input id="starting-point" g-places-autocomplete ng-model="starting_point" type="text"
+                 placeholder="Starting Point">
+        </label>
 
-      <button type="submit" class="button button-light centralize">
-        Let's go!
-      </button>
-    </form>
+        <label class="item item-input">
+          <input id="destination" type="text" g-places-autocomplete ng-model="destination" placeholder="Destination">
+        </label>
+
+        <button type="submit" class="button button-light centralize">
+          Let's go!
+        </button>
+      </form>
+
+      <ion-list ng-show="routesOn">
+        <ion-item class="item-icon-left item-icon-right" ng-repeat="route in routes" type="item-text-wrap">
+          <i class="icon {{getIcon(route.mode)}}"></i>
+
+          <div class="row">
+            <div class="col">
+              {{route.distance.text}}
+            </div>
+            <div class="col">
+              {{route.duration.text}}
+            </div>
+          </div>
+
+          <i class="icon ion-leaf ">
+            <p>50 pts</p>
+          </i>
+
+          <!--<ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>-->
+          <!--<ion-option-button class="button-positive" ng-click="markIncomplete(journey)" ng-show="settings.showCompleted">Mark as Incomplete</ion-option-button>-->
+
+        </ion-item>
+      </ion-list>
+
+      <br>
+      <br>
+      <br>
+      <br>
+    </div>
   </ion-content>
 </ion-view>
