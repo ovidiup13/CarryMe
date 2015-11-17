@@ -234,7 +234,7 @@ angular.module('starter.controllers', ['ksSwiper'])
     $scope.friend = Friends.get($stateParams.friendId);
   })
 
-  .controller('ActivityCtrl', function ($scope, $filter, Activity, PointsCaloriesCalculator) {
+  .controller('ActivityCtrl', function ($scope, $filter, Activity) {
     var currentUser = Parse.User.current();
 
     $scope.settings = {

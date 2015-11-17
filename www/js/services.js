@@ -262,18 +262,25 @@ angular.module('starter.services', [])
           var obj = {
             temperature: Math.round(response.list[i].main.temp),
             description: response.list[i].weather[0].main,
-            icon: response.list[i].weather[0].id
+            icon: Icons.getWeatherIcon(response.list[i].weather[0].id)
           };
 
           //new date starting from 1st Jan 1970
           var date = new Date(0);
           date.setSeconds(response.list[i].dt);
-          obj.time = date.toLocaleTimeString();
+          obj.time = checkTime(date.getHours()) + ":" + checkTime(date.getMinutes());
 
           weather.forecast.push(obj);
         }
       });
     };
+
+    function checkTime(i) {
+      if (i < 10) {
+        i = "0" + i;
+      }
+      return i;
+    }
 
     //sync current weather
     weather.sync = function () {
