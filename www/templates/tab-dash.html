@@ -7,8 +7,9 @@
     <!-- Weather object -->
     <div>
       <div id="weather">
-        <!--<img src="{{icon_url}}"/>-->
-        <h2 id="temperature"> {{weather.temperature}}&deg;C</h2>
+        <h2 id="temperature">
+          <i class="{{weather.icon_url}}"></i>
+          {{weather.temperature}}&deg;C</h2>
         <ul>
           <li>{{weather.weatherDescription}}</li>
           <li>{{weather.city}}</li>

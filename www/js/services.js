@@ -83,7 +83,7 @@ angular.module('starter.services', [])
    *
    * transportMode = { walking, public transport, cycling, car }
    * * */
-  .factory("Directions", function ($q) {
+  .factory("Directions", function ($q, Icons) {
 
     var directions = {
       service: new google.maps.DirectionsService()
@@ -146,7 +146,7 @@ angular.module('starter.services', [])
           res = {
             mode: {
               text: transportMode,
-              icon: null
+              icon: Icons.getTransportIcon(transportMode)
             },
             distance: {
               text: r.distance.text,
@@ -216,7 +216,7 @@ angular.module('starter.services', [])
   })
 
   //the weather service
-  .factory('Weather', function (WEATHER, $http, $q) {
+  .factory('Weather', function (WEATHER, $http, $q, Icons) {
     var weather = {
       data: null,
       forecast: null
@@ -240,9 +240,10 @@ angular.module('starter.services', [])
         result.temperature = Math.round(response.main.temp);
         result.weatherDescription = response.weather[0].description;
         result.city = response.name;
-        result.icon_url = WEATHER.icon_url + response.weather[0].icon + ".png";
+        result.icon_url = Icons.getWeatherIcon(response.weather[0].id).toLowerCase();
 
         defer.resolve(result);
+
       });
 
       return defer.promise;
@@ -255,6 +256,8 @@ angular.module('starter.services', [])
         url: WEATHER.url + "forecast?q=Glasgow&units=metric&APPID=" + WEATHER.api_key
       }).success(function (response) {
         weather.forecast = [];
+
+
         for (var i = 0; i < 3; i++) {
           var obj = {
             temperature: Math.round(response.list[i].main.temp),
@@ -283,6 +286,59 @@ angular.module('starter.services', [])
     };
 
     return weather;
+  })
+
+  .factory("Icons", function ($q, $http) {
+    var icons = {
+      weatherIcons: null
+    };
+
+    function loadJSON(file) {
+      return $http.get(file).then(function (data) {
+        icons.weatherIcons = data.data;
+        isLoaded = true;
+      });
+    }
+
+    loadJSON('data/icons.json');
+
+    icons.getWeatherIcon = function (code) {
+      return getIcon(code);
+    };
+
+
+    var getIcon = function (code) {
+
+      while (!isLoaded) {
+      }
+
+      var prefix = "wi wi-";
+      var icon = icons.weatherIcons[code].icon;
+
+      // If we are not in the ranges mentioned above, add a day/night prefix.
+      if (!(code > 699 && code < 800) && !(code > 899 && code < 1000)) {
+        icon = 'day-' + icon;
+      }
+
+      return prefix + icon;
+    };
+
+    icons.getTransportIcon = function (transport) {
+      if (transport === "walking") {
+        return 'ion-android-walk';
+      }
+      if (transport === "bicycling") {
+        return 'ion-android-bicycle';
+      }
+      if (transport === "transit") {
+        return 'ion-android-bus';
+      }
+      if (transport === "driving") {
+        return 'ion-android-car';
+      }
+    };
+
+    return icons;
   })
 
   .factory('Chats', function () {
