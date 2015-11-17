@@ -1,6 +1,6 @@
 #weather {
   opacity: 1;
-  margin: 0px auto;
+  margin: 0 auto;
   text-align: center;
   text-transform: uppercase;
 }
@@ -64,7 +64,7 @@
   text-align: center;
   font-size: 27px;
   width: 30px;
-  background-color: rgb(189, 195, 199);
+  background-color: #34495e;
   color: white;
   /* Center slide text vertically */
   display: -webkit-box;
@@ -93,7 +93,7 @@
 
 .pane {
   /*background-image: url("https://s3-eu-west-1.amazonaws.com/media.unbound.co/p/images/553/original/clouds.jpg?1393527084")*/
-  background-color: #bdc3c7;
+  background-color: #34495e; /*#bdc3c7;*/
 }
 
 #search-form {
@@ -104,3 +104,9 @@
 #search-form button {
   margin: 8px;
 }
+
+#plan-header h3 {
+  text-align: center;
+  color: white;
+}
+

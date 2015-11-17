@@ -32,10 +32,24 @@
 
     </div>
 
+    <!-- Message on Card -->
+    <div class="card" ng-controller="CardCtrl">
+      <div class="item item-text-wrap">
+        <h3>{{card.title}}</h3>
+
+        <p ng-bind-html="card.template">
+
+        </p>
+      </div>
+    </div>
+
     <!-- Routes object -->
 
     <div ng-controller="RoutesCtrl">
 
+      <div id="plan-header">
+        <h3> Plan your Journey </h3>
+      </div>
       <!-- Routes form -->
       <form id="search-form" ng-submit="getRoutes()">
         <label class="item item-input">

@@ -153,8 +153,22 @@ angular.module('starter.controllers', ['ksSwiper'])
    * Dashboard ROUTES Controller
    */
 
-  .controller("RoutesCtrl", function ($scope, Directions) {
+  .controller("RoutesCtrl", function ($scope, Directions, $ionicLoading, $ionicPopup, $ionicScrollDelegate) {
     $scope.routesOn = false;
+
+    var showLoading = function () {
+      $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 50,
+        showDelay: 0
+      });
+    };
+
+    var hideLoading = function () {
+      $ionicLoading.hide();
+    };
 
     $scope.starting_point = null;
     $scope.destination = null;
@@ -162,12 +176,14 @@ angular.module('starter.controllers', ['ksSwiper'])
 
     //query routes from service
     $scope.getRoutes = function () {
+      showLoading();
       Directions.getDirections($scope.starting_point, $scope.destination)
         //if routes are successful
         .then(function (result) {
           //display routes
           $scope.displayRoutes(result);
-          console.log(result);
+
+          console.log(JSON.stringify(result));
 
           //if an error occurred
         }, function (err) {
@@ -181,30 +197,23 @@ angular.module('starter.controllers', ['ksSwiper'])
             console.log(err);
           });
         });
-
-      //TODO: swap it with a service
-      $scope.getIcon = function (transport) {
-        if (transport === "walking") {
-          return 'ion-android-walk';
-        }
-        if (transport === "bicycling") {
-          return 'ion-android-bicycle';
-        }
-        if (transport === "transit") {
-          return 'ion-android-bus';
-        }
-        if (transport === "driving") {
-          return 'ion-android-car';
-        }
-      };
     };
 
     //display routes
     $scope.displayRoutes = function (routes) {
+
       $scope.routes = routes;
-      //console.log($scope.routes);
+
       $scope.routesOn = true;
+      hideLoading();
+      $ionicScrollDelegate.scrollBottom(true);
     }
+
+  })
+
+  .controller("CardCtrl", function ($scope, Cards) {
+
+    $scope.card = Cards.getRandomCard();
 
   })
 
@@ -300,13 +309,13 @@ angular.module('starter.controllers', ['ksSwiper'])
       if (transport === "walking") {
         return 'ion-android-walk';
       }
-      if (transport === "cycling") {
+      if (transport === "bicycling") {
         return 'ion-android-bicycle';
       }
-      if (transport === "public transport") {
+      if (transport === "transit") {
         return 'ion-android-bus';
       }
-      if (transport === "car") {
+      if (transport === "driving") {
         return 'ion-android-car';
       }
     };

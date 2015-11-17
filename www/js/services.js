@@ -10,14 +10,14 @@ angular.module('starter.services', [])
       points: 40
     }, {
       id: 1,
-      mean: "public transport",
+      mean: "transit",
       date: "25-10-2015",
       distance: "5 km",
       calories: 100,
       points: 30
     }, {
       id: 2,
-      mean: "car",
+      mean: "driving",
       date: "27-10-2015",
       distance: "15 km",
       calories: 50,
@@ -40,7 +40,7 @@ angular.module('starter.services', [])
       points: 40
     }, {
       id: 1,
-      mean: "public transport",
+      mean: "bicyling",
       date: "31.10.2015",
       distance: "5 km",
       calories: 100,
@@ -348,6 +348,36 @@ angular.module('starter.services', [])
     return icons;
   })
 
+  .factory("Cards", function () {
+    var cards = {};
+
+    cards.examples = [
+      {
+        title: "Did you know?",
+        template: "Walking is good for you. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+      },
+      {
+        title: "Did you know?",
+        template: "Public transport is okay. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+      },
+      {
+        title: "Did you know?",
+        template: "Driving is good, but walking is better. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+      },
+      {
+        title: "Did you know?",
+        template: "Cycling is good for you. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+      }
+    ];
+
+    cards.getRandomCard = function () {
+      var article = Math.floor((Math.random() * cards.examples.length));
+      return cards.examples[article];
+    };
+
+    return cards;
+  })
+
   .factory('Chats', function () {
     // Might use a resource here that returns a JSON array
 
@@ -400,6 +430,7 @@ angular.module('starter.services', [])
       }
     }
   })
+
   .factory('Chats', function () {
     // Might use a resource here that returns a JSON array
 
