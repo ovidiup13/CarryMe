@@ -1,52 +1,5 @@
 angular.module('starter.services', [])
 
-  .factory("PointsCaloriesCalculator", function () {
-    /*
-     EXAMPLE USE
-     var route = [];
-     route[0]= {transportMode : "walking", time : 1};
-     route[1]= {transportMode : "cycling", time : 1};
-     console.log(PointsCaloriesCalculator.getCalories.apply(null, route));
-     */
-    var _getCalories = function () {
-      var calories = 0;
-      var currentUser = Parse.User.current();
-      var weight = currentUser.attributes.weight;
-      var metMap = {
-        "walking": 3.8,
-        "public transport": 1.0,
-        "cycling": 8.0,
-        "car": 2.0
-      };
-
-      for (var i = 0; i < arguments.length; i++) {
-        calories += metMap[arguments[i].transportMode] * weight * arguments[i].time;
-      }
-      return calories;
-    };
-
-    var _getPoints = function () {
-      var points = 0;
-      var pointsMap = {
-        "walking": 50,
-        "public transport": 25,
-        "cycling": 50,
-        "car": 20
-      };
-
-      for (var i = 0; i < arguments.length; i++) {
-        points += pointsMap[arguments[i].transportMode] * arguments[i].time;
-      }
-      return points;
-
-    };
-
-    return {
-      getPoints: _getPoints,
-      getCalories: _getCalories
-    }
-  })
-
   .factory("Activity", function () {
     var journeys = [{
       id: 0,
@@ -138,39 +91,28 @@ angular.module('starter.services', [])
 
     //travel modes
     var travelModes = [google.maps.TravelMode.WALKING,
+      google.maps.TravelMode.BICYCLING,
       google.maps.TravelMode.TRANSIT,
-      google.maps.TravelMode.DRIVING,
-      google.maps.TravelMode.BICYCLING
+      google.maps.TravelMode.DRIVING
     ];
-
-    //transit modes
-    var transitModes = [google.maps.TransitMode.BUS,
-      google.maps.TransitMode.SUBWAY,
-      google.maps.TransitMode.TRAM,
-      google.maps.TransitMode.RAIL];
 
     directions.getDirections = function (origin, destination) {
 
       var defered = $q.defer();
+      var promises = [];
 
-      var promise1 = getGenericDirections(origin.formatted_address,
-        destination.formatted_address,
-        google.maps.TravelMode.WALKING);
+      travelModes.forEach(function (travelMode) {
+        //get directions for each travel mode
+        var p = getGenericDirections(origin.formatted_address,
+          destination.formatted_address, travelMode);
 
-      var promise2 = getGenericDirections(origin.formatted_address,
-        destination.formatted_address,
-        google.maps.TravelMode.BICYCLING);
+        //push promises to array
+        promises.push(p);
+      });
 
-      var promise3 = getGenericDirections(origin.formatted_address,
-        destination.formatted_address,
-        google.maps.TravelMode.DRIVING);
-
-      var promise4 = getGenericDirections(origin.formatted_address,
-        destination.formatted_address,
-        google.maps.TravelMode.TRANSIT);
-
-      $q.all([promise1, promise2, promise3, promise4]).then(function (data) {
-        defered.resolve([data[0], data[1], data[2], data[3]]);
+      //when all promises have been resolved, return data
+      $q.all(promises).then(function (data) {
+        defered.resolve(data);
       });
 
       return defered.promise;
@@ -180,7 +122,7 @@ angular.module('starter.services', [])
      * Function that returns walking directions
      */
     var getGenericDirections = function (origin, dest, travelMode) {
-      var result = {};
+      var res = {};
       var defered = $q.defer();
 
       //create the request object
@@ -194,23 +136,34 @@ angular.module('starter.services', [])
       directions.service.route(request, function (result, status) {
         if (status == google.maps.DirectionsStatus.OK) {
 
-          console.log(result);
+          var transportMode = result.request.travelMode.toLowerCase();
 
-          //TODO: add points and other stuff
-          result = {
-            mode: result.request.travelMode.toLowerCase(),
+          //result object
+          var r = result.routes[0].legs[0];
+          var timeValue = convertTimeDecimal(r.duration.value);
+
+          //result object sent to controller
+          res = {
+            mode: {
+              text: transportMode,
+              icon: null
+            },
             distance: {
-              text: result.routes[0].legs[0].distance.text,
-              value: result.routes[0].legs[0].distance.value
+              text: r.distance.text,
+              value: r.distance.value
             },
             duration: {
-              text: result.routes[0].legs[0].duration.text,
-              value: convertTimeDecimal(result.routes[0].legs[0].duration.value)
+              text: r.duration.text,
+              value: timeValue
+            },
+            score: {
+              points: getPoints(transportMode, timeValue),
+              calories: getCalories(transportMode, timeValue)
             }
           };
 
           //return our result
-          defered.resolve(result);
+          defered.resolve(res);
         }
         else {
           //reject out result
@@ -223,48 +176,6 @@ angular.module('starter.services', [])
     };
 
     /**
-     * Function that returns public transport directions.
-     * */
-    var getBusDirections = function (origin, dest) {
-      var result = {};
-      var defered = $q.defer();
-
-      var request = {
-        origin: origin,
-        destination: dest.formatted_address,
-        travelMode: google.maps.TravelMode.TRANSIT,
-        transitOptions: {
-          modes: [google.maps.TransitMode.BUS]
-        }
-      };
-
-      directions.service.route(request, function (result, status) {
-        if (status == google.maps.DirectionsStatus.OK) {
-
-          //get data from object
-
-          //TODO: add points and other stuff
-          result = {
-            mode: 'walking',
-            distance: {
-              text: result.routes[0].legs[0].distance.text,
-              value: result.routes[0].legs[0].distance.value
-            },
-            duration: {
-              text: result.routes[0].legs[0].duration.text,
-              value: convertTimeDecimal(result.routes[0].legs[0].duration.value)
-            }
-          };
-
-          defered.resolve(result);
-        }
-        else {
-          defered.reject("An error occurred with Google Request. Please try again later.");
-        }
-      });
-    };
-
-    /**
      * Function that converts time (seconds) in hours (decimal format)
      * @param time
      * @returns {number}
@@ -273,12 +184,39 @@ angular.module('starter.services', [])
       return Math.round(time / 60.0) / 60;
     };
 
-    return directions;
 
+    //function that computes calories
+    var getCalories = function (travelMode, time) {
+      var currentUser = Parse.User.current();
+      var weight = currentUser.attributes.weight;
+
+      var metMap = {
+        walking: 3.8,
+        transit: 1.0,
+        bicycling: 8.0,
+        driving: 2.0
+      };
+
+      return Math.round(metMap[travelMode] * weight * time);
+    };
+
+    //function that computes points
+    var getPoints = function (travelMode, time) {
+      var pointsMap = {
+        "walking": 50,
+        "transit": 25,
+        "bicycling": 50,
+        "driving": 20
+      };
+
+      return Math.round(pointsMap[travelMode] * time);
+    };
+
+    return directions;
   })
 
   //the weather service
-  .factory('Weather', function (WEATHER, $http) {
+  .factory('Weather', function (WEATHER, $http, $q) {
     var weather = {
       data: null,
       forecast: null
@@ -286,12 +224,28 @@ angular.module('starter.services', [])
 
     //get current weather
     weather.getCurrentWeather = function () {
-      return $http({
+
+      var defer = $q.defer();
+
+      $http({
         method: 'GET',
         url: WEATHER.url + "weather?q=Glasgow&units=metric&APPID=" + WEATHER.api_key
       }).success(function (response) {
+
         weather.data = response;
+
+        //create response object
+        var result = {};
+
+        result.temperature = Math.round(response.main.temp);
+        result.weatherDescription = response.weather[0].description;
+        result.city = response.name;
+        result.icon_url = WEATHER.icon_url + response.weather[0].icon + ".png";
+
+        defer.resolve(result);
       });
+
+      return defer.promise;
     };
 
     //get five day forecast

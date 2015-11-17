@@ -8,10 +8,10 @@
     <div>
       <div id="weather">
         <!--<img src="{{icon_url}}"/>-->
-        <h2 id="temperature"> {{temperature}}&deg;C</h2>
+        <h2 id="temperature"> {{weather.temperature}}&deg;C</h2>
         <ul>
-          <li>{{weatherDescription}}</li>
-          <li>{{city}}</li>
+          <li>{{weather.weatherDescription}}</li>
+          <li>{{weather.city}}</li>
         </ul>
       </div>
 
@@ -20,7 +20,10 @@
         <div class="swiper-wrapper">
           <div class="swiper-slide" ng-repeat="weather in forecast" is-loaded>
 
-            {{weather.temperature}}&deg;C
+            <div id="weatherSlide">
+              <i></i>
+              {{weather.temperature}}&deg;C
+            </div>
             <h5>{{weather.time}}</h5>
           </div>
         </div>
@@ -52,19 +55,26 @@
 
       <ion-list ng-show="routesOn">
         <ion-item class="item-icon-left item-icon-right" ng-repeat="route in routes" type="item-text-wrap">
-          <i class="icon {{getIcon(route.mode)}}"></i>
+          <i class="icon {{route.mode.icon}}"></i>
 
           <div class="row">
             <div class="col">
               {{route.distance.text}}
             </div>
             <div class="col">
-              {{route.duration.text}}
+              {{route.score.calories}} kcal
             </div>
           </div>
-
-          <i class="icon ion-leaf ">
-            <p>50 pts</p>
+          <div class="row">
+            <div class="col">
+              {{route.duration.text}}
+            </div>
+            <div class="col">
+              <!-- carbon footprint -->
+            </div>
+          </div>
+          <i class="icon ion-leaf">
+            <p>{{route.score.points}} pts</p>
           </i>
 
           <!--<ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>-->
@@ -73,8 +83,6 @@
         </ion-item>
       </ion-list>
 
-      <br>
-      <br>
       <br>
       <br>
     </div>

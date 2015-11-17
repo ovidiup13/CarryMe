@@ -114,14 +114,13 @@ angular.module('starter.controllers', ['ksSwiper'])
       spaceBetween: 10
     });
 
+    $scope.weather = {};
     $scope.forecast = [];
 
     $scope.syncWeather = function () {
-      Weather.sync().then(function () {
-        $scope.temperature = Math.round(Weather.data.main.temp);
-        $scope.weatherDescription = Weather.data.weather[0].description;
-        $scope.city = Weather.data.name;
-        $scope.icon_url = WEATHER.icon_url + Weather.data.weather[0].icon + ".png";
+      Weather.sync().then(function (data) {
+
+        $scope.weather = data;
 
         //refresh complete
         $scope.$broadcast('scroll.refreshComplete');
@@ -129,12 +128,9 @@ angular.module('starter.controllers', ['ksSwiper'])
     };
 
     //sync current weather
-    Weather.sync().then(function () {
-      $scope.temperature = Math.round(Weather.data.main.temp);
-      $scope.weatherDescription = Weather.data.weather[0].description;
-      $scope.city = Weather.data.name;
-      $scope.icon_url = WEATHER.icon_url + Weather.data.weather[0].icon + ".png";
+    Weather.sync().then(function (data) {
 
+      $scope.weather = data;
       //sync if forecast is null
       if (Weather.forecast === null) {
         syncForecast();
