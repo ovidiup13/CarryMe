@@ -17,6 +17,10 @@
     <link href="lib/bootstrap-social/bootstrap-social.css" rel="stylesheet">
     <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
+    <link href="http://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="lib/Materialize/dist/css/materialize.min.css" type="text/css" rel="stylesheet"
+          media="screen,projection">
+
     <!-- custom stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -35,11 +39,6 @@
     <!-- swiper script -->
     <script src="lib/swiper/dist/js/swiper.min.js"></script>
     <script src="lib/angular-swiper/dist/angular-swiper.js"></script>
-
-    <!-- your app's js -->
-    <script src="js/app.js"></script>
-    <script src="js/controllers.js"></script>
-    <script src="js/services.js"></script>
     <!--<script src="js/Chart.min.js"></script>-->
     <!--<script src="js/angular-chart.min.js"></script>-->
 
@@ -54,37 +53,31 @@
     <link href="lib/angular-google-places-autocomplete/dist/autocomplete.min.css" rel="stylesheet">
     <script src="lib/angular-google-places-autocomplete/dist/autocomplete.min.js"></script>
 
+    <script src="lib/jquery/dist/jquery.min.js"></script>
+    <script src="lib/Materialize/dist/js/materialize.min.js"></script>
+
+    <!-- your app's js -->
+    <script src="js/app.js"></script>
+    <script src="js/controllers.js"></script>
+    <script src="js/services.js"></script>
+
+
   </head>
   <body ng-app="starter">
     <!--
       The nav bar that will be updated as we navigate between views.
     -->
-    <!--<ion-nav-bar class="bar-stable">
+    <ion-nav-bar class="bar-stable">
       <ion-nav-back-button>
       </ion-nav-back-button>
-    </ion-nav-bar>-->
+    </ion-nav-bar>
 
     <!--
       The views will be rendered in the <ion-nav-view> directive below
       Templates are in the /templates folder (but you could also
       have templates inline in this html file if you'd like).
     -->
-    <ion-nav-view>
-
-      <ion-side-menus>
-        <!-- Left menu -->
-        <ion-side-menu side="left">
-        </ion-side-menu>
-
-        <ion-side-menu-content>
-          <!-- Main content, usually <ion-nav-view> -->
-        </ion-side-menu-content>
-
-        <!-- Right menu -->
-        <ion-side-menu side="right">
-        </ion-side-menu>
-
-      </ion-side-menus>
+    <ion-nav-view hide-nav-bar="true">
 
 
     </ion-nav-view>

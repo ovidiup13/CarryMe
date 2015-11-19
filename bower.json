@@ -12,6 +12,7 @@
     "weather-icons": "~2.0.10",
     "angular-google-maps": "~2.2.1",
     "angular-google-places-autocomplete": "~0.2.7",
-    "bootstrap-social": "~4.10.1"
+    "bootstrap-social": "~4.10.1",
+    "Materialize": "materialize#~0.97.3"
   }
 }
