@@ -1,27 +1,53 @@
 <ion-view title="Sign Up">
   <ion-content padding="true" class="has-header">
+
+    <div class="title">
+      Welcome
+    </div>
+
     <form>
       <ion-list>
         <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" placeholder="enter username..." ng-model="data.username">
+          <!--<span class="input-label">Username</span>-->
+          <input type="text" placeholder="Username" ng-model="data.username">
         </label>
         <label class="item item-input">
-          <span class="input-label">Email</span>
-          <input type="email" placeholder="you@domain.com" ng-model="data.email">
-        </label>
-
-        <label class="item item-input">
-          <span class="input-label">Weight(kg)</span>
-          <input type="text" placeholder="For accurate calories count" ng-model="data.weight">
+          <!--<span class="input-label">Email</span>-->
+          <input type="email" placeholder="Email" ng-model="data.email">
         </label>
 
         <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" placeholder="At least 6 characters" ng-model="data.password">
+          <!--<span class="input-label">Weight(kg)</span>-->
+          <input type="text" placeholder="Weight (kg)" ng-model="data.weight">
+        </label>
+
+        <label class="item item-input">
+          <!--<span class="input-label">Password</span>-->
+          <input type="password" placeholder="Password (at least 6 characters)" ng-model="data.password">
         </label>
       </ion-list>
-      <button class="button button-outline button-positive"  style="width: 100%;" ng-click="signupEmail()">Done</button>
+      <button class="button button-light custom-button" style="margin-top: 10px" ng-click="signupEmail()">Done</button>
     </form>
+
+    <div>
+      <h3 style="color:#fff; text-align:center; margin-top: 30px">or</h3>
+    </div>
+
+    <a class="button btn-facebook custom-button">
+      <span class="fa fa-facebook-official"></span> Sign up with Facebook
+    </a>
+    <a class="button btn-google custom-button">
+      <span class="fa fa-google-plus"></span> Sign up with Google+
+    </a>
+    <a class="button btn-twitter custom-button">
+      <span class="fa fa-twitter"></span> Sign up with Twitter
+    </a>
+
+    <div>
+      <h4 style="color:#fff; text-align:center; margin-top: 30px">Existing user?</h4>
+      <a href="#/signin" class="button button-light custom-button">
+        Sign In
+      </a>
+    </div>
   </ion-content>
 </ion-view>

@@ -1,17 +1,49 @@
 <ion-view title="Sign In">
   <ion-content padding="true" class="has-header">
-    <form>
-      <ion-list>
+
+    <div class="title">
+      Hello Again
+    </div>
+
+    <form id="login-form">
         <label class="item item-input">
-          <span class="input-label">Username</span>
-          <input type="text" placeholder="enter your username..." ng-model="data.username">
+          <!--
+                    <span class="input-label">Username</span>
+          -->
+          <input type="text" placeholder="Username" ng-model="data.username">
         </label>
         <label class="item item-input">
-          <span class="input-label">Password</span>
-          <input type="password" placeholder="enter your password..." ng-model="data.password">
+          <!--
+                    <span class="input-label">Password</span>
+          -->
+          <input type="password" placeholder="Password" ng-model="data.password">
         </label>
-      </ion-list>
-      <button class="button button-outline button-positive"  style="width: 100%;" ng-click="loginEmail()">Done</button>
+
+      <button class="button button-light custom-button" ng-click="loginEmail()" style="margin-top: 10px">Sign in
+      </button>
+
     </form>
+
+    <div>
+      <h3 style="color:#fff; text-align:center; margin-top: 30px">or</h3>
+    </div>
+
+    <a class="button btn-facebook custom-button">
+      <span class="fa fa-facebook-official"></span> Sign in with Facebook
+    </a>
+    <a class="button btn-google custom-button">
+      <span class="fa fa-google-plus"></span> Sign in with Google+
+    </a>
+    <a class="button btn-twitter custom-button">
+      <span class="fa fa-twitter"></span> Sign in with Twitter
+    </a>
+
+    <div>
+      <h4 style="color:#fff; text-align:center; margin-top: 30px">Don't have an account?</h4>
+      <a href="#/signup" class="button button-light custom-button">
+        Sign Up
+      </a>
+    </div>
+
   </ion-content>
 </ion-view>

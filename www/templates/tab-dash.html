@@ -16,10 +16,12 @@
         </ul>
       </div>
 
+      <div id="separator"></div>
+
       <!-- Swiper -->
-      <div class="swiper-container" ng-init="syncForecast()" swiper>
+      <div class="swiper-container" ng-init="syncForecast()" swiper> <!--swiper-->
         <div class="swiper-wrapper">
-          <div class="swiper-slide" ng-repeat="weather in forecast" is-loaded>
+          <div class="swiper-slide" ng-repeat="weather in forecast" is-loaded> <!-- is-loaded -->
 
             <i class="{{weather.icon}}"></i>
             {{weather.temperature}}&deg;C
@@ -29,6 +31,12 @@
         <!-- If we need scrollbar -->
         <!--<div class="swiper-scrollbar"></div>-->
       </div>
+
+      <!--<ks-swiper-container initial-slide="1" loop="false" show-nav-buttons="false" slides-per-view="3" space-between="5" pagination-clickable="false">
+        <ks-swiper-slide class="swiper-slide" ng-repeat="weather in forecast">
+          aaa
+        </ks-swiper-slide>
+      </ks-swiper-container>-->
 
     </div>
 

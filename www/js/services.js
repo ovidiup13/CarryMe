@@ -251,14 +251,17 @@ angular.module('starter.services', [])
 
     //get five day forecast
     weather.getForecast = function () {
-      return $http({
+
+      var defer = $q.defer();
+
+      $http({
         method: 'GET',
         url: WEATHER.url + "forecast?q=Glasgow&units=metric&APPID=" + WEATHER.api_key
       }).success(function (response) {
         weather.forecast = [];
 
 
-        for (var i = 0; i < 3; i++) {
+        for (var i = 0; i < 6; i++) {
           var obj = {
             temperature: Math.round(response.list[i].main.temp),
             description: response.list[i].weather[0].main,
@@ -272,7 +275,12 @@ angular.module('starter.services', [])
 
           weather.forecast.push(obj);
         }
+
+        defer.resolve(weather.forecast);
+
       });
+
+      return defer.promise;
     };
 
     function checkTime(i) {
@@ -316,8 +324,6 @@ angular.module('starter.services', [])
 
     var getIcon = function (code) {
 
-      while (!isLoaded) {
-      }
 
       var prefix = "wi wi-";
       var icon = icons.weatherIcons[code].icon;

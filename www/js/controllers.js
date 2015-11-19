@@ -1,8 +1,25 @@
 angular.module('starter.controllers', ['ksSwiper'])
-  .controller('LoginCtrl', function ($scope, $state, $ionicPopup) {
+  .controller('LoginCtrl', function ($scope, $state, $ionicPopup, $ionicLoading) {
     $scope.data = {};
 
+    var showLoading = function () {
+      $ionicLoading.show({
+        content: 'Loading',
+        animation: 'fade-in',
+        showBackdrop: true,
+        maxWidth: 50,
+        showDelay: 0
+      });
+    };
+
+    var hideLoading = function () {
+      $ionicLoading.hide();
+    };
+
     $scope.signupEmail = function () {
+
+      showLoading();
+
       var currentUser = Parse.User.current();
       if (currentUser) {
         // do stuff with the user
@@ -20,14 +37,18 @@ angular.module('starter.controllers', ['ksSwiper'])
       user.set("weight", $scope.data.weight);
       user.signUp(null, {
         success: function (user) {
+          hideLoading();
+
           // Hooray! Let them use the app now.
           var alertPopup = $ionicPopup.alert({
             title: 'Success!',
-            template: 'You are signed up.'
+            template: 'You are signed up. Now, let\'s sign in!'
           });
+
           $state.go('login');
         },
         error: function (user, error) {
+          hideLoading();
           // Show the error message somewhere and let the user try again.
           var alertPopup = $ionicPopup.alert({
             title: 'Error!',
@@ -41,20 +62,26 @@ angular.module('starter.controllers', ['ksSwiper'])
     };
 
     $scope.loginEmail = function () {
+      showLoading();
+
       Parse.User.logIn($scope.data.username, $scope.data.password, {
         success: function (user) {
           // Do stuff after successful login.
           console.log(user);
 
-          var alertPopup = $ionicPopup.alert({
+          hideLoading();
+
+          /*var alertPopup = $ionicPopup.alert({
             title: 'Success!',
             template: 'You are logged in.'
-          });
+           });*/
 
           $state.go('tab.dash');
 
         },
         error: function (user, error) {
+          hideLoading();
+
           // The login failed. Check error to see why.
           var alertPopup = $ionicPopup.alert({
             title: 'Error!',
@@ -107,13 +134,6 @@ angular.module('starter.controllers', ['ksSwiper'])
    */
   .controller('DashCtrl', function ($scope, Weather, WEATHER, $interval) {
 
-    //swiper
-    var swiper = new Swiper('.swiper-container', {
-      direction: 'horizontal',
-      slidesPerView: 3,
-      spaceBetween: 10
-    });
-
     $scope.weather = {};
     $scope.forecast = [];
 
@@ -143,8 +163,8 @@ angular.module('starter.controllers', ['ksSwiper'])
 
     //function to get forecast data from service
     var syncForecast = function () {
-      Weather.syncForecast().then(function () {
-        $scope.forecast = Weather.forecast.slice();
+      Weather.syncForecast().then(function (data) {
+        $scope.forecast = data;
       });
     };
   })
