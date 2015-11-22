@@ -90,12 +90,18 @@
 .swiper-slide:nth-child(3n) {
   width: 20%;
 }
-
+/*
 .pane {
-  /*background-image: url("https://s3-eu-west-1.amazonaws.com/media.unbound.co/p/images/553/original/clouds.jpg?1393527084")*/
-  background-color: #34495e; /*#bdc3c7;*/
+  /!*background-image: url("https://s3-eu-west-1.amazonaws.com/media.unbound.co/p/images/553/original/clouds.jpg?1393527084")*!/
+  background-color: #34495e; /!*#bdc3c7;*!/
+}*/
+.scroll-content{
+  background-image:url("https://c1.staticflickr.com/9/8653/16481454470_2c2c7dbaf0.jpg");
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
 }
-
 #search-form {
   margin: 0 auto;
   text-align: center;

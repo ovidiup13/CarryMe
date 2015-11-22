@@ -212,8 +212,21 @@ angular.module('starter.services', [])
       return Math.round(pointsMap[travelMode] * time);
     };
 
+
+    // returns kgCO2e
+    var getCarbonFootprint = function(travelMode, distance){
+      var carbonMap = {
+        "walking": 0,
+        "bicycling":0,
+        "transit":0.13552, //assumes bus used
+        "driving":0.24234
+      }
+      return Math.round(carbonMap[travelMode] * distance);
+    };
     return directions;
   })
+
+
 
   //the weather service
   .factory('Weather', function (WEATHER, $http, $q, Icons) {
@@ -353,20 +366,20 @@ angular.module('starter.services', [])
 
     cards.examples = [
       {
-        title: "Did you know?",
-        template: "Walking is good for you. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+        title: "Why should you walk?",
+        template: "It's free, enjoyable and can help you to lead an active and healthy lifestyle.. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-walking.htm\">here</a>."
       },
       {
-        title: "Did you know?",
-        template: "Public transport is okay. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+        title: "Why would you cycle?",
+        template: "It's great exercise, inexpensive, no emissions, little noise, reduced congestion.. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-cycling.htm\">here</a>."
       },
       {
-        title: "Did you know?",
-        template: "Driving is good, but walking is better. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+        title: "Why share a car?",
+        template: "Roads will be less crowded and you could share the travel expense. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-car-sharing.htm\">here</a>."
       },
       {
-        title: "Did you know?",
-        template: "Cycling is good for you. Check out more <a target=\"_blank\" href=\"http://google.co.uk\">here</a>."
+        title: "Why take public transport?",
+        template: "You can relax or work while someone else drives. No worries about parking and you can have a drink after work. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-public-transport.htm\">here</a>."
       }
     ];
 
@@ -405,11 +418,6 @@ angular.module('starter.services', [])
       name: 'Perry Governor',
       points: 4680,
       face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
-    }, {
-      id: 4,
-      name: 'Mike Harrington',
-      points: 10340,
-      face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
     }];
 
 
