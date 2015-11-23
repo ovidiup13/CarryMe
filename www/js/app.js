@@ -127,6 +127,15 @@ angular.module('starter', ['ionic', 'google.places', 'starter.controllers', 'sta
             controller: 'ActivityCtrl'
           }
         }
+      })
+      .state('tab.account-settings', {
+        url: '/activity/settings',
+        views: {
+          'tab-activity': {
+            templateUrl: 'templates/tab-settings.html',
+            controller: 'SettingsCtrl'
+          }
+        }
       });
 
     // if none of the above states are matched, use this as the fallback

@@ -1,6 +1,6 @@
 <ion-view view-title="Dashboard" hide-nav-bar="true">
 
-  <ion-content class="padding">
+  <ion-content style="background-image: url({{backgroundImage}});">
 
     <ion-refresher refreshing-text="Syncing weather..." on-refresh="syncWeather()"></ion-refresher>
 
@@ -32,16 +32,10 @@
         <!--<div class="swiper-scrollbar"></div>-->
       </div>
 
-      <!--<ks-swiper-container initial-slide="1" loop="false" show-nav-buttons="false" slides-per-view="3" space-between="5" pagination-clickable="false">
-        <ks-swiper-slide class="swiper-slide" ng-repeat="weather in forecast">
-          aaa
-        </ks-swiper-slide>
-      </ks-swiper-container>-->
-
     </div>
 
     <!-- Message on Card -->
-    <div class="card" ng-controller="CardCtrl">
+    <div class="card" ng-controller="CardCtrl" style ="opacity: 0.65; ">
       <div class="item item-text-wrap">
         <h3>{{card.title}}</h3>
 
@@ -53,19 +47,19 @@
 
     <!-- Routes object -->
 
-    <div ng-controller="RoutesCtrl">
+    <div ng-controller="RoutesCtrl" >
 
       <div id="plan-header">
         <h3> Plan your Journey </h3>
       </div>
       <!-- Routes form -->
-      <form id="search-form" ng-submit="getRoutes()">
-        <label class="item item-input">
+      <form id="search-form" ng-submit="getRoutes()" >
+        <label class="item item-input" style ="opacity: 0.85; ">
           <input id="starting-point" g-places-autocomplete ng-model="starting_point" type="text"
                  placeholder="Starting Point" required>
         </label>
 
-        <label class="item item-input">
+        <label class="item item-input" style ="opacity: 0.85; ">
           <input id="destination" type="text" g-places-autocomplete ng-model="destination" placeholder="Destination"
                  required>
         </label>
@@ -75,7 +69,7 @@
         </button>
       </form>
 
-      <ion-list ng-show="routesOn">
+      <ion-list ng-show="routesOn" style ="opacity: 0.7; ">
         <ion-item class="item-icon-left item-icon-right" ng-repeat="route in routes" type="item-text-wrap">
           <i class="icon {{route.mode.icon}}"></i>
 

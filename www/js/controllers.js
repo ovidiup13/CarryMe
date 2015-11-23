@@ -137,11 +137,52 @@ angular.module('starter.controllers', ['ksSwiper'])
     $scope.weather = {};
     $scope.forecast = [];
 
+    $scope.backgroundImage = "https://c1.staticflickr.com/9/8653/16481454470_2c2c7dbaf0.jpg";
+
+
+    $scope.setImage = function(){
+      if($scope.weather.icon_url.indexOf("sun") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "http://bucurestifm.ro/wp-content/uploads/sites/2/2015/04/5400420353_71ce5e6af8_z.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("rain") > -1 || $scope.weather.icon_url.indexOf("sprinkle") > -1 || $scope.weather.icon_url.indexOf("shower") > -1 ){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "http://newsfirst.lk/english/wp-content/uploads/2014/10/weather_flood-626x380.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("cloud") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "https://i.ytimg.com/vi/BZyDf1b5uPE/maxresdefault.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("hail") > -1||$scope.weather.icon_url.indexOf("sleet") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "http://images.scribblelive.com/2014/10/7/7bd36e32-fd7e-4f2b-9c9c-353e8aed01e0.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("haze") > -1||$scope.weather.icon_url.indexOf("fog") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "http://static.tumblr.com/cf1335af491e6b930efc87b771db93c6/oqsrjcf/4Tonsl0x9/tumblr_static_aqtqunneso8ossccgs0owk044.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("wind") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "https://c2.staticflickr.com/4/3735/11220254873_d0683c0e2e_b.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("snow") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = " https://edshunnybunny.files.wordpress.com/2010/02/snow-pics-015.jpg";
+      }
+      if($scope.weather.icon_url.indexOf("lightning") > -1){
+        //$scope.backgroundImage = "http://static3.crated.com/NdTlmEL7NDNjph4Qo5I7xVyHGSM=/fit-in/960x960/filters:quality(90)/crated/thumbs/art/2014/07/24/2ed04261c301107da99535c5adb9517a/960.jpg";
+        $scope.backgroundImage = "http://www.lightningsafety.noaa.gov/photos/Lightning%202a.jpg";
+      }
+
+
+    }
+
     $scope.syncWeather = function () {
       Weather.sync().then(function (data) {
 
         $scope.weather = data;
-
+        $scope.setImage();
+        console.log("WEATHER" + $scope.weather.icon_url);
         //refresh complete
         $scope.$broadcast('scroll.refreshComplete');
       });
@@ -151,6 +192,7 @@ angular.module('starter.controllers', ['ksSwiper'])
     Weather.sync().then(function (data) {
 
       $scope.weather = data;
+      $scope.setImage();
       //sync if forecast is null
       if (Weather.forecast === null) {
         syncForecast();
@@ -348,4 +390,11 @@ angular.module('starter.controllers', ['ksSwiper'])
       Activity.markIncomplete(journey);
     };
 
-  });
+  })
+  .controller('SettingsCtrl', function($scope, $state) {
+    $scope.logout = function(){
+      Parse.User.logOut();
+      $state.go('login');
+    }
+  })
+;

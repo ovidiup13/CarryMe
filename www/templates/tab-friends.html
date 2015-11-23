@@ -2,13 +2,13 @@
 
   <ion-content>
     <div class="list list-inset">
-      <label class="item item-input">
+      <label class="item item-input" >
         <i class="icon ion-search placeholder-icon"></i>
-        <input type="text" placeholder="Find people">
+        <input type="text"  placeholder="Find people">
       </label>
     </div>
     <ion-list >
-      <ion-item class="item-remove-animate item-avatar item-icon-right" ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/friend/{{friend.id}}">
+      <ion-item class="item-remove-animate item-avatar item-icon-right" style ="opacity: 0.85;" ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/friend/{{friend.id}}">
         <img ng-src="{{friend.face}}">
         <h2>{{friend.name}}</h2>
         <p>{{friend.points}} pts</p>
