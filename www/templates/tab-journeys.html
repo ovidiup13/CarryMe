@@ -1,0 +1,142 @@
+<ion-view view-title="Journeys" hide-nav-bar="true">
+  <ion-content class="padding">
+    <!-- Routes object -->
+
+    <div ng-controller="JourneysCtrl">
+
+      <div id="plan-header">
+        <h3> Plan your Journey </h3>
+      </div>
+
+      <!-- Routes form -->
+      <form id="search-form" ng-submit="getRoutes()">
+        <label class="input-field">
+          <i class="material-icons prefix">my_location</i>
+          <input id="starting-point" g-places-autocomplete ng-model="starting_point" type="text"
+                 placeholder="Starting Point" class="validate" style="color:white">
+        </label>
+
+        <label class="input-field">
+          <i class="material-icons prefix">location_on</i>
+          <input id="destination" type="text" g-places-autocomplete ng-model="destination" placeholder="Destination"
+                 class="validate" style="color:white">
+        </label>
+
+        <button type="submit" class="waves-effect waves-light btn centralize">
+          Let's go!
+        </button>
+      </form>
+
+      <div ng-show="routesOn">
+
+        <ul class="collection" style="opacity:0.85">
+          <li class="collection-item avatar" ng-repeat="route in routes">
+            <i class="circle icon {{route.mode.icon}}"></i>
+
+            <span class="title">{{route.mode.text}}</span>
+
+            <p>{{route.duration.text}} / {{route.score.calories}} kcal <br>
+              {{route.score.footprint}} CO2e / {{route.score.points}} points <br>
+
+            </p>
+            <a href="#!" class="secondary-content"><i class="material-icons">send</i></a>
+          </li>
+        </ul>
+
+        <!-- <ion-item class="item-remove-animate item-icon-right" style ="opacity: 0.85; margin-top:2px;" ng-repeat="route in routes" type="item-text-wrap" >
+
+           <div class="item-icon-left">
+             <i class="icon {{route.mode.icon}}"></i>
+           </div>
+
+           <div class="item-icon-right">
+             <i class="icon ion-leaf ">
+               <p>{{route.score.points}} pts</p>
+             </i>
+           </div>
+
+           <div class="item-content" style="padding-bottom: 0;">
+             <h2> <b>{{route.score.calories}} cal / {{route.score.footprint}} CO2e </b></h2>
+
+             <br>
+
+             <div class="row">
+               <div class="col">
+                 {{route.duration.text}}
+               </div>
+               <div class="col">
+                 {{route.distance.text}}
+               </div>
+             </div>
+           </div>
+
+
+           &lt;!&ndash;<ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>&ndash;&gt;
+           &lt;!&ndash;<ion-option-button class="button-positive" ng-click="markIncomplete(journey)" ng-show="settings.showCompleted">Mark as Incomplete</ion-option-button>&ndash;&gt;
+
+         </ion-item>-->
+
+        <!--<div class="card-panel teal" ng-repeat="route in routes">
+
+          <div class="content">
+            <i class="icon {{route.mode.icon}}"></i>
+
+            <div class="row">
+              <div class="col">
+                {{route.distance.text}}
+              </div>
+              <div class="col">
+                {{route.score.calories}} kcal
+              </div>
+            </div>
+            <div class="row">
+              <div class="col">
+                {{route.duration.text}}
+              </div>
+              <div class="col">
+                &lt;!&ndash; carbon footprint &ndash;&gt;
+              </div>
+            </div>
+            <i class="icon ion-leaf">
+              <p>{{route.score.points}} pts</p>
+            </i>
+          </div>
+-->
+      </div>
+    </div>
+
+
+    <!-- <ion-list ng-show="routesOn">
+       <ion-item class="item-icon-left item-icon-right" ng-repeat="route in routes" type="item-text-wrap">
+         <i class="icon {{route.mode.icon}}"></i>
+
+         <div class="row">
+           <div class="col">
+             {{route.distance.text}}
+           </div>
+           <div class="col">
+             {{route.score.calories}} kcal
+           </div>
+         </div>
+         <div class="row">
+           <div class="col">
+             {{route.duration.text}}
+           </div>
+           <div class="col">
+             &lt;!&ndash; carbon footprint &ndash;&gt;
+           </div>
+         </div>
+         <i class="icon ion-leaf">
+           <p>{{route.score.points}} pts</p>
+         </i>
+
+         &lt;!&ndash;<ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>&ndash;&gt;
+         &lt;!&ndash;<ion-option-button class="button-positive" ng-click="markIncomplete(journey)" ng-show="settings.showCompleted">Mark as Incomplete</ion-option-button>&ndash;&gt;
+
+       </ion-item>
+     </ion-list>-->
+
+    </div>
+
+  </ion-content>
+</ion-view>

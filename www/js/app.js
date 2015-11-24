@@ -81,6 +81,17 @@ angular.module('starter', ['ionic', 'google.places', 'starter.controllers', 'sta
           }
         }
       })
+
+      .state('tab.journeys', {
+        url: '/journeys',
+        views: {
+          'tab-journeys': {
+            templateUrl: 'templates/tab-journeys.html',
+            controller: 'JourneysCtrl'
+          }
+        }
+      })
+
       .state('tab.friends', {
         url: '/friends',
         views: {
@@ -95,7 +106,7 @@ angular.module('starter', ['ionic', 'google.places', 'starter.controllers', 'sta
         views: {
           'tab-friends': {
             templateUrl: 'templates/tab-friend.html',
-            controller: 'FriendCtrl'
+            controller: 'ActivityCtrl'
           }
         }
       })

@@ -1,16 +1,22 @@
 <ion-view view-title="{{friend.name}}">
   <ion-nav-buttons side="right">
-    <a class="button button-icon icon ion-person-add"></a>
   </ion-nav-buttons>
   <ion-content class="padding">
 
+    <ion-list>
+      <div style="margin: 0 auto; width:150px">
+        <div class="img-circular" style="background-image: url({{friend.face}})"></div>
+      </div>
 
-    <div style="margin: 0 auto; width:150px">
-      <div class="img-circular" style="background-image: url({{friend.face}})"></div>
-    </div>
+      <p>
+        {{friend.points}}
+      </p>
 
-    <p>
-      {{friend.points}}
-    </p>
+      <div class="item item-text-wrap" style="opacity: 0.95; ">
+        <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true"
+                chart-series="series" chart-options="{showTooltips: false}"></canvas>
+      </div>
+    </ion-list>
+
   </ion-content>
 </ion-view>

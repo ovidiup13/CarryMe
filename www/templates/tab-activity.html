@@ -1,40 +1,59 @@
-<ion-view view-title="{{user.name}}">
-  <ion-nav-buttons side="right">
-    <a class="button button-icon icon ion-ios-gear" href="#/tab/activity/settings"></a>
-  </ion-nav-buttons>
-  <ion-content>
+<ion-view view-title="{{user.name}}" hide-nav-bar="true">
+  <!--<ion-nav-buttons side="right">
+  </ion-nav-buttons>-->
+
+
+  <ion-content class="padding">
+
+    <a class="button button-icon icon ion-ios-gear" href="#/tab/activity/settings" style="color:white; float:right"></a>
+
     <!--<img ng-src="{{user.face}}">-->
     <div style="margin: 0 auto; width:150px">
-    <div class="img-circular" style="  background-image: url('https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png');"></div>
+      <div class="img-circular"
+           style="  background-image: url('https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png');"></div>
     </div>
+
+
     <ion-list>
       <!--<canvas id="myChart" width="400" height="400"></canvas>-->
       <div class="item item-text-wrap" style ="opacity: 0.95; ">
-        <canvas id="line" class="chart chart-line" data="data" labels="labels" legend="true" series="series" options="{showTooltips: false}"></canvas>
+        <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true"
+                chart-series="series" chart-options="{showTooltips: false}"></canvas>
       </div>
-    <ion-toggle  ng-model="settings.showCompleted" style ="opacity: 0.85; ">
+
+      <ion-toggle ng-model="settings.showCompleted" style="opacity: 0.85; ">
         {{getToggleText()}}
     </ion-toggle>
 
-      <ion-item class="item-remove-animate item-icon-left item-icon-right" style ="opacity: 0.85; " ng-repeat="journey in getJourneys()" type="item-text-wrap" >
+      <ion-item class="item-remove-animate item-icon-left item-icon-right"
+                style="opacity: 0.85; margin-top:2px; padding-bottom: 0" ng-repeat="journey in getJourneys()"
+                type="item-text-wrap">
+
+        <!-- transport mode icon -->
         <i class="icon {{getIcon(journey.mean)}}"></i>
-        <h2>{{journey.date}}</h2>
+
+        <!-- calories and carbon footprint -->
+        <h2><b>{{journey.calories}} cal / {{journey.footprint}}</b></h2>
+
+        <br>
+
+        <!-- Date and distance -->
         <div class="row">
           <div class="col">
-            {{journey.calories}} cal
+            <h3>{{journey.date}}</h3>
           </div>
           <div class="col">
-            {{journey.distance}}
+            <h3>{{journey.distance}}</h3>
           </div>
         </div>
 
+        <!-- Number of Points -->
         <i class="icon ion-leaf ">
           <p>{{journey.points}} pts</p>
         </i>
 
         <ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>
         <ion-option-button class="button-positive" ng-click="markIncomplete(journey)" ng-show="settings.showCompleted">Mark as Incomplete</ion-option-button>
-
 
       </ion-item>
     </ion-list>

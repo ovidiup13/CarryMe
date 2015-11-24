@@ -1,5 +1,6 @@
 angular.module('starter.controllers', ['ksSwiper'])
   .controller('LoginCtrl', function ($scope, $state, $ionicPopup, $ionicLoading) {
+
     $scope.data = {};
 
     var showLoading = function () {
@@ -72,8 +73,8 @@ angular.module('starter.controllers', ['ksSwiper'])
           hideLoading();
 
           /*var alertPopup = $ionicPopup.alert({
-            title: 'Success!',
-            template: 'You are logged in.'
+           title: 'Success!',
+           template: 'You are logged in.'
            });*/
 
           $state.go('tab.dash');
@@ -175,7 +176,7 @@ angular.module('starter.controllers', ['ksSwiper'])
       }
 
 
-    }
+    };
 
     $scope.syncWeather = function () {
       Weather.sync().then(function (data) {
@@ -215,7 +216,7 @@ angular.module('starter.controllers', ['ksSwiper'])
    * Dashboard ROUTES Controller
    */
 
-  .controller("RoutesCtrl", function ($scope, Directions, $ionicLoading, $ionicPopup, $ionicScrollDelegate) {
+  .controller("JourneysCtrl", function ($scope, Directions, $ionicLoading, $ionicPopup, $ionicScrollDelegate) {
     $scope.routesOn = false;
 
     var showLoading = function () {
@@ -239,13 +240,12 @@ angular.module('starter.controllers', ['ksSwiper'])
     //query routes from service
     $scope.getRoutes = function () {
       showLoading();
+
       Directions.getDirections($scope.starting_point, $scope.destination)
         //if routes are successful
         .then(function (result) {
           //display routes
           $scope.displayRoutes(result);
-
-          console.log(JSON.stringify(result));
 
           //if an error occurred
         }, function (err) {
@@ -301,8 +301,12 @@ angular.module('starter.controllers', ['ksSwiper'])
     $scope.friends = Friends.all();
   })
 
-  .controller('FriendCtrl', function ($scope, $stateParams, Friends) {
+  .controller('FriendCtrl', function ($scope, $stateParams, Friends, $ionicHistory) {
     $scope.friend = Friends.get($stateParams.friendId);
+
+    $scope.goBack = function () {
+      $ionicHistory.goBack(-1);
+    };
   })
 
   .controller('ActivityCtrl', function ($scope, $filter, Activity) {

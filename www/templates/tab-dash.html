@@ -1,6 +1,6 @@
 <ion-view view-title="Dashboard" hide-nav-bar="true">
 
-  <ion-content style="background-image: url({{backgroundImage}});">
+  <ion-content style="background-image: url({{backgroundImage}});" hide-nav-bar="true" class="padding">
 
     <ion-refresher refreshing-text="Syncing weather..." on-refresh="syncWeather()"></ion-refresher>
 
@@ -28,79 +28,27 @@
             <h5>{{weather.time}}</h5>
           </div>
         </div>
-        <!-- If we need scrollbar -->
-        <!--<div class="swiper-scrollbar"></div>-->
-      </div>
-
-    </div>
-
-    <!-- Message on Card -->
-    <div class="card" ng-controller="CardCtrl" style ="opacity: 0.65; ">
-      <div class="item item-text-wrap">
-        <h3>{{card.title}}</h3>
-
-        <p ng-bind-html="card.template">
-
-        </p>
+        <div class="swiper-scrollbar"></div>
       </div>
     </div>
 
-    <!-- Routes object -->
+    <div ng-controller="CardCtrl">
+      <div class="waves-effect waves-light card grey dismissable">
+        <div class="card-content white-text">
+          <span class="card-title">{{card.title}}</span>
 
-    <div ng-controller="RoutesCtrl" >
-
-      <div id="plan-header">
-        <h3> Plan your Journey </h3>
+          <p>{{card.template}}</p>
+        </div>
+        <div class="card-action">
+          <a href="#" style="color:white">Share</a>
+          <a href="{{card.link}}" style="color:white">Explore</a>
+        </div>
       </div>
-      <!-- Routes form -->
-      <form id="search-form" ng-submit="getRoutes()" >
-        <label class="item item-input" style ="opacity: 0.85; ">
-          <input id="starting-point" g-places-autocomplete ng-model="starting_point" type="text"
-                 placeholder="Starting Point" required>
-        </label>
-
-        <label class="item item-input" style ="opacity: 0.85; ">
-          <input id="destination" type="text" g-places-autocomplete ng-model="destination" placeholder="Destination"
-                 required>
-        </label>
-
-        <button type="submit" class="button button-light centralize">
-          Let's go!
-        </button>
-      </form>
-
-      <ion-list ng-show="routesOn" style ="opacity: 0.7; ">
-        <ion-item class="item-icon-left item-icon-right" ng-repeat="route in routes" type="item-text-wrap">
-          <i class="icon {{route.mode.icon}}"></i>
-
-          <div class="row">
-            <div class="col">
-              {{route.distance.text}}
-            </div>
-            <div class="col">
-              {{route.score.calories}} kcal
-            </div>
-          </div>
-          <div class="row">
-            <div class="col">
-              {{route.duration.text}}
-            </div>
-            <div class="col">
-              <!-- carbon footprint -->
-            </div>
-          </div>
-          <i class="icon ion-leaf">
-            <p>{{route.score.points}} pts</p>
-          </i>
-
-          <!--<ion-option-button class="button-positive" ng-click="markComplete(journey)" ng-hide="settings.showCompleted">Mark as Complete</ion-option-button>-->
-          <!--<ion-option-button class="button-positive" ng-click="markIncomplete(journey)" ng-show="settings.showCompleted">Mark as Incomplete</ion-option-button>-->
-
-        </ion-item>
-      </ion-list>
-
-      <br>
-      <br>
     </div>
+
+    <a href="#/tab/journeys" class="waves-effect waves-light blue darken-1 btn custom-button">
+      Plan your next journey!
+    </a>
+
   </ion-content>
 </ion-view>

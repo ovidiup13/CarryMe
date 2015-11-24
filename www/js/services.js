@@ -158,7 +158,8 @@ angular.module('starter.services', [])
             },
             score: {
               points: getPoints(transportMode, timeValue),
-              calories: getCalories(transportMode, timeValue)
+              calories: getCalories(transportMode, timeValue),
+              footprint: getCarbonFootprint(travelMode.toLowerCase(), r.distance.value)
             }
           };
 
@@ -220,7 +221,11 @@ angular.module('starter.services', [])
         "bicycling":0,
         "transit":0.13552, //assumes bus used
         "driving":0.24234
-      }
+      };
+
+      console.log(travelMode);
+      console.log(carbonMap[travelMode]);
+      console.log(distance);
       return Math.round(carbonMap[travelMode] * distance);
     };
     return directions;
@@ -373,19 +378,23 @@ angular.module('starter.services', [])
     cards.examples = [
       {
         title: "Why should you walk?",
-        template: "It's free, enjoyable and can help you to lead an active and healthy lifestyle.. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-walking.htm\">here</a>."
+        template: "It's free, enjoyable and can help you to lead an active and healthy lifestyle.. Check out more",
+        link: "http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-walking.htm"
       },
       {
         title: "Why would you cycle?",
-        template: "It's great exercise, inexpensive, no emissions, little noise, reduced congestion.. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-cycling.htm\">here</a>."
+        template: "It's great exercise, inexpensive, no emissions, little noise, reduced congestion...",
+        link: "http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-cycling.htm"
       },
       {
         title: "Why share a car?",
-        template: "Roads will be less crowded and you could share the travel expense. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-car-sharing.htm\">here</a>."
+        template: "Roads will be less crowded and you could share the travel expense.",
+        link: "http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-car-sharing.htm"
       },
       {
         title: "Why take public transport?",
-        template: "You can relax or work while someone else drives. No worries about parking and you can have a drink after work. Check out more <a target=\"_blank\" href=\"http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-public-transport.htm\">here</a>."
+        template: "You can relax or work while someone else drives. No worries about parking and you can have a drink after work.",
+        link: "http://www.nidirect.gov.uk/index/information-and-services/travel-transport-and-roads/travelwiseni/travelwise-public-transport.htm"
       }
     ];
 

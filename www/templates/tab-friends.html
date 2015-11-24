@@ -1,20 +1,34 @@
-<ion-view view-title="Scoreboard">
+<ion-view view-title="Scoreboard" hide-nav-bar="true">
 
-  <ion-content>
-    <div class="list list-inset">
-      <label class="item item-input" >
-        <i class="icon ion-search placeholder-icon"></i>
-        <input type="text"  placeholder="Find people">
-      </label>
-    </div>
-    <ion-list >
+  <ion-content class="padding">
+
+
+    <label class="input-field">
+      <i class="material-icons prefix">person_pin</i>
+      <input id="starting-point" g-places-autocomplete ng-model="starting_point" type="text"
+             placeholder="Search People" class="validate" style="color:white">
+    </label>
+
+    <ion-list style="margin-bottom: 50px">
       <ion-item class="item-remove-animate item-avatar item-icon-right" style ="opacity: 0.85;" ng-repeat="friend in friends" type="item-text-wrap" href="#/tab/friend/{{friend.id}}">
         <img ng-src="{{friend.face}}">
         <h2>{{friend.name}}</h2>
         <p>{{friend.points}} pts</p>
         <i class="icon ion-chevron-right icon-accessory"></i>
-
       </ion-item>
     </ion-list>
+
+    <div style="margin-top: 20px">
+      <a class="waves-effect waves-light btn blue darken-4 custom-button">
+        <span class="fa fa-facebook-official"></span> Import from Facebook
+      </a>
+      <a class="waves-effect waves-light btn deep-orange darken-2 custom-button">
+        <span class="fa fa-google-plus"></span> Import from Google
+      </a>
+      <a class="waves-effect waves-light btn light-blue accent-3 custom-button">
+        <span class="fa fa-twitter"></span> Import from Twitter
+      </a>
+    </div>
+
   </ion-content>
 </ion-view>
