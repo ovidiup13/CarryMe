@@ -215,12 +215,12 @@ angular.module('starter.services', [])
 
 
     // returns kgCO2e
-    var getCarbonFootprint = function(travelMode, distance){
+    var getCarbonFootprint = function (travelMode, distance) {
       var carbonMap = {
         "walking": 0,
-        "bicycling":0,
-        "transit":0.13552, //assumes bus used
-        "driving":0.24234
+        "bicycling": 0,
+        "transit": 0.13552, //assumes bus used
+        "driving": 0.24234
       };
 
       console.log(travelMode);
@@ -501,4 +501,12 @@ angular.module('starter.services', [])
         return null;
       }
     };
-  });
+  })
+
+  .factory("MapService", function () {
+
+    var mapData = {}
+
+  })
+
+;
