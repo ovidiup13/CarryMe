@@ -1,10 +1,13 @@
-<ion-view view-title="Map">
-  <ion-nav-buttons side="right">
-  </ion-nav-buttons>
-  <ion-content>
+<ion-view>
+  <ion-nav-bar>
+    <ion-nav-back-button> Back
+    </ion-nav-back-button>
+    <ion-nav-buttons side="primary">
+      <a class="waves-effect waves-light btn">Start</a>
+    </ion-nav-buttons>
+  </ion-nav-bar>
 
-    <ui-gmap-google-map center="map.center" zoom="map.zoom" options="options"
-                        style="height:100%; width: 100%"></ui-gmap-google-map>
+  <ion-content style="background-image: url('../data/map.png')">
 
   </ion-content>
 </ion-view>

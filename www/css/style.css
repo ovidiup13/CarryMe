@@ -166,6 +166,17 @@
   /*background: rgba(149, 165, 166, 0.5);*/
 }
 
+.points {
+  color: #fff;
+  /*background: #fff;*/
+  /*background: rgba(255,255,255,0.90);*/
+  font-size: 20px;
+  padding: 10px;
+  display: inline-block;
+  border-radius: 5px;
+  margin-left: 33%;
+}
+
 
 
 

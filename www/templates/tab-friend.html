@@ -1,6 +1,10 @@
 <ion-view view-title="{{friend.name}}">
-  <ion-nav-buttons side="right">
-  </ion-nav-buttons>
+  <ion-nav-bar>
+    <ion-nav-back-button>
+      Back
+    </ion-nav-back-button>
+  </ion-nav-bar>
+
   <ion-content class="padding">
 
     <ion-list>
@@ -8,11 +12,11 @@
         <div class="img-circular" style="background-image: url({{friend.face}})"></div>
       </div>
 
-      <p>
-        {{friend.points}}
-      </p>
+      <div class="points center-align">
+        Points: {{friend.points}}
+      </div>
 
-      <div class="item item-text-wrap" style="opacity: 0.95; ">
+      <div class="item item-text-wrap" style="opacity: 0.95;" ng-controller="ActivityCtrl">
         <canvas id="line" class="chart chart-line" chart-data="data" chart-labels="labels" chart-legend="true"
                 chart-series="series" chart-options="{showTooltips: false}"></canvas>
       </div>

@@ -116,7 +116,7 @@ angular.module('starter', ['ionic', 'google.places', 'starter.controllers', 'sta
         views: {
           'tab-friends': {
             templateUrl: 'templates/tab-friend.html',
-            controller: 'ActivityCtrl'
+            controller: 'FriendCtrl'
           }
         }
       })

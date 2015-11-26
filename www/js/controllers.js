@@ -215,7 +215,6 @@ angular.module('starter.controllers', ['ksSwiper', 'uiGmapgoogle-maps'])
   /**
    * Dashboard ROUTES Controller
    */
-
   .controller("JourneysCtrl", function ($scope, Directions, $ionicLoading, $ionicPopup, $ionicScrollDelegate) {
     $scope.routesOn = false;
 
