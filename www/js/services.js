@@ -157,7 +157,7 @@ angular.module('starter.services', [])
               value: timeValue
             },
             score: {
-              points: getPoints(transportMode, timeValue),
+              points: getPoints(transportMode, r.distance.value/1000.00),
               calories: getCalories(transportMode, timeValue),
               footprint: getCarbonFootprint(travelMode.toLowerCase(), r.distance.value)
             }
@@ -202,15 +202,15 @@ angular.module('starter.services', [])
     };
 
     //function that computes points
-    var getPoints = function (travelMode, time) {
+    var getPoints = function (travelMode, distance) {
       var pointsMap = {
         "walking": 50,
         "transit": 25,
         "bicycling": 50,
-        "driving": 20
+        "driving": 10
       };
 
-      return Math.round(pointsMap[travelMode] * time);
+      return Math.round(pointsMap[travelMode] * distance);
     };
 
 
@@ -226,7 +226,7 @@ angular.module('starter.services', [])
       console.log(travelMode);
       console.log(carbonMap[travelMode]);
       console.log(distance);
-      return Math.round(carbonMap[travelMode] * distance);
+      return (carbonMap[travelMode] * distance/1000.0).toFixed(3);
     };
     return directions;
   })

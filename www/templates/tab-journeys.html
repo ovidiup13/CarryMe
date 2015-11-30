@@ -33,12 +33,13 @@
           <li class="collection-item avatar" ng-repeat="route in routes">
             <i class="circle icon {{route.mode.icon}}"></i>
 
-            <span class="title">{{route.mode.text}}</span>
+            <span class="title">{{route.score.points}} points </span>
+            <div class="row">
+              <div class="col-50"> {{route.duration.text}}  <br>  {{route.distance.value/1000.0}} km</div>
+              <div class="col-50">{{route.score.footprint}} kg CO2e <br>{{route.score.calories}} kcal</div>
+            </div>
 
-            <p>{{route.duration.text}} / {{route.score.calories}} kcal <br>
-              {{route.score.footprint}} CO2e / {{route.score.points}} points <br>
 
-            </p>
             <a href="#/tab/journeys/map" class="secondary-content"><i class="material-icons">send</i></a>
           </li>
         </ul>
