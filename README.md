@@ -11,7 +11,7 @@ The way the application is trying to solve the transport problem is through comb
 - health: calories and tips
 - routes
 - gamification
-- 
+
 Firstly, the application uses weather services to present the user with a forecast for the day. Based on this, the app recommends a type of transport i.e. encourage walking or cycling on a sunny day or public transport or car sharing in case of bad weather (if the user is not willing to walk through the rain). This tries to motivate users to choose more sustainable means of transport, especially when the weather allows it.
 
 Secondly, given the current trends of checking the amount of calories one eats and burns, integrating calories aims to motivate people to take a walk rather than drive. Additionally, users are educated of the benefits of choosing specific means of transport, to encourage them to make environmentally-wiser and healthier choices.
